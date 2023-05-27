@@ -8,6 +8,7 @@ using Codecool.CodecoolShop.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -57,6 +58,14 @@ namespace Codecool.CodecoolShop
             });
 
             SetupInMemoryDatabases();
+
+            ConnectToDatabase();
+        }
+
+        private void ConnectToDatabase()
+        {
+            string connectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            SqlConnection connection = new SqlConnection(connectionString);
         }
 
         private void SetupInMemoryDatabases()
