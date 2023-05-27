@@ -14,7 +14,8 @@
         @foreach(var category in productCategory)
         {
             <p class="category-text">
-            @Html.ActionLink($"{category}", "Index")</p>
+                <a asp-action="Category" asp-controller="Product" asp-route-id="">@category</a>
+                </p>
         }
     </div>
     <div class="supplier">
@@ -23,7 +24,7 @@
         @foreach (var supplier in suppliers)
         {
             <p class="supplier-text">
-            @Html.ActionLink($"{supplier}", "Index")
+            @Html.ActionLink($"{supplier}", "Supplier")
             </p>
         }
     </div>
