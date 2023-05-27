@@ -31,6 +31,18 @@ namespace Codecool.CodecoolShop.Controllers
             return View(products.ToList());
         }
 
+        public IActionResult Category(int id) //int id
+        {
+            //var products = ProductService.GetProductsForCategory(1);
+            return View();
+        }
+
+        public IActionResult Supplier(string supplier) //int id
+        {
+            //var products = ProductService.GetProductsForCategory(1);
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
