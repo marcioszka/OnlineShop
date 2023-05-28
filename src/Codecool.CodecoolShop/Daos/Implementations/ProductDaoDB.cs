@@ -137,7 +137,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     ";
 
                 command.CommandText = selectProductsSql;
-                command.Parameters.AddWithValue("@Supplier", supplier);
+                command.Parameters.AddWithValue("@Supplier", supplier.Name);
 
                 using var reader = command.ExecuteReader();
                 List<Product> data = new List<Product>();
@@ -147,7 +147,6 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     int id = (int)reader["id"];
                     string name = (string)reader["name"];
                     string description = (string)reader["description"];
-                    string department = (string)reader["department"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
                     string productCategory = (string)reader["product_category"];
@@ -184,17 +183,16 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     ";
 
                 command.CommandText = selectProductsSql;
-                command.Parameters.AddWithValue("@ProductCategory", productCategory);
+                command.Parameters.AddWithValue("@ProductCategory", productCategory.Name);
 
-                using var reader = command.ExecuteReader();
                 List<Product> data = new List<Product>();
+                using var reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
                     int id = (int)reader["id"];
                     string name = (string)reader["name"];
                     string description = (string)reader["description"];
-                    string department = (string)reader["department"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
                     string productSupplier = (string)reader["supplier"];
