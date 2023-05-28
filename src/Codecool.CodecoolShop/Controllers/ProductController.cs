@@ -22,9 +22,6 @@ namespace Codecool.CodecoolShop.Controllers
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
-            //ProductService = new ProductService(
-            //    ProductDaoMemory.GetInstance(),
-            //    ProductCategoryDaoMemory.GetInstance());
             ProductService = new ProductService(
                 ProductDaoDB.GetInstance(),
                 ProductCategoryDaoDB.GetInstance(),
@@ -33,27 +30,30 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Index()
         {
-            //var products = ProductService.GetProductsForCategory(1);
-            //var products = ProductService.GetAllProducts();
-            //var categories = ProductService.GetProductCategories();
             dynamic myModel = new ExpandoObject();
             myModel.Products = ProductService.GetAllProducts();
+            //myModel.Products = ProductService.GetProductsForCategory(1);
             myModel.Categories = ProductService.GetProductCategories();
             myModel.Suppliers = ProductService.GetSuppliers();
-            //return View(products.ToList());
             return View(myModel);
         }
 
-        public IActionResult Category(int id) //int id
+        public IActionResult Category(int id)
         {
-            var products = ProductService.GetProductsForCategory(id);
-            return View(products.ToList());
+            dynamic myModel = new ExpandoObject();
+            myModel.Products = ProductService.GetProductsForCategory(id);
+            myModel.Categories = ProductService.GetProductCategories();
+            myModel.Suppliers = ProductService.GetSuppliers();
+            return View(myModel);
         }
 
-        public IActionResult Supplier(string supplier) //int id
+        public IActionResult Supplier(int id)
         {
-            //var products = ProductService.GetProductsForCategory(1);
-            return View();
+            dynamic myModel = new ExpandoObject();
+            myModel.Products = ProductService.GetProductsForSupplier(id);
+            myModel.Categories = ProductService.GetProductCategories();
+            myModel.Suppliers = ProductService.GetSuppliers();
+            return View(myModel);
         }
 
         public IActionResult Privacy()
