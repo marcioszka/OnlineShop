@@ -46,13 +46,42 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public Supplier Get(int id)
         {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
-            using var command = connection.CreateCommand();
-            command.CommandType = CommandType.Text;
-            //TODO: implement getting data from DB
-            Supplier item = null;
-            return item;
+            try
+            {
+                using var connection = new SqlConnection(_connectionString);
+                connection.Open();
+                using var command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+
+                string selectSupplierSql =
+                    @"
+                    SELECT name, description
+                    FROM supplier
+                    WHERE id=@Id;
+                    ";
+
+                command.CommandText = selectSupplierSql;
+                command.Parameters.AddWithValue("@Id", id);
+
+                using var reader = command.ExecuteReader();
+                Supplier item = null;
+
+                if (reader.Read())
+                {
+                    string name = (string)reader["name"];
+                    string description = (string)reader["description"];
+
+
+                    item.Id = id;
+                    item.Name = name;
+                    item.Description = description;
+                }
+                return item;
+            }
+            catch (SqlException exception)
+            {
+                throw exception;
+            }
         }
 
         public IEnumerable<Supplier> GetAll()
