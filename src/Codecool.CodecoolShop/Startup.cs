@@ -59,7 +59,7 @@ namespace Codecool.CodecoolShop
 
             SetupInMemoryDatabases();
 
-            ConnectToDatabase();
+            //ConnectToDatabase();
         }
 
         private void ConnectToDatabase()
