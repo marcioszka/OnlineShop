@@ -57,15 +57,20 @@ namespace Codecool.CodecoolShop
                     pattern: "{controller=Product}/{action=Index}/{id?}");
             });
 
-            SetupInMemoryDatabases();
+            //SetupInMemoryDatabases();
 
-            //ConnectToDatabase();
+            //RetrieveFromDatabase();
         }
 
-        private void ConnectToDatabase()
+        private void RetrieveFromDatabase()
         {
-            string connectionString = Configuration["ConnectionStrings:DefaultConnection"];
-            SqlConnection connection = new SqlConnection(connectionString);
+            IProductDao productDataDB = ProductDaoDB.GetInstance();
+            IProductCategoryDao productCategoryDataDB = ProductCategoryDaoMemory.GetInstance();
+            ISupplierDao supplierDataDB = SupplierDaoMemory.GetInstance();
+
+            var suppliers = supplierDataDB.GetAll();
+            var productCategories = productCategoryDataDB.GetAll();
+            var products = productDataDB.GetAll();
         }
 
         private void SetupInMemoryDatabases()
