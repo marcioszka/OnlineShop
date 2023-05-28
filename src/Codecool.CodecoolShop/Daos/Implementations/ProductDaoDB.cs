@@ -150,10 +150,12 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string department = (string)reader["department"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
-                    ProductCategory productCategory = (ProductCategory)reader["product_category"];
+                    string productCategory = (string)reader["product_category"];
                     string imagePath = (string)reader["image_path"];
 
-                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
+                    ProductCategory category = new ProductCategory() { Name = productCategory };
+
+                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier, ImagePath = imagePath };
                     data.Add(product);
                 }
 
@@ -195,8 +197,10 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string department = (string)reader["department"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
-                    Supplier supplier = (Supplier)reader["supplier"];
+                    string productSupplier = (string)reader["supplier"];
                     string imagePath = (string)reader["image_path"];
+
+                    Supplier supplier = new Supplier() { Name = productSupplier };
 
                     var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
                     data.Add(product);
