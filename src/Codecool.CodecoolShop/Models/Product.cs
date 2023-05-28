@@ -9,6 +9,8 @@ namespace Codecool.CodecoolShop.Models
         public ProductCategory ProductCategory { get; set; }
         public Supplier Supplier { get; set; }
 
+        public string ImagePath { get; set; }
+
         public void SetProductCategory(ProductCategory productCategory)
         {
             ProductCategory = productCategory;
