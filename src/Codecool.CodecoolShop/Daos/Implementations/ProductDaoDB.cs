@@ -93,6 +93,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandText = selectProductsSql;
                 
                 using var reader = command.ExecuteReader();
+                List<Product> data = null;
 
                 while (reader.Read())
                 {
@@ -118,12 +119,90 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public IEnumerable<Product> GetBy(Supplier supplier)
         {
-            return data.Where(x => x.Supplier.Id == supplier.Id);
+            try
+            {
+                using var connection = new SqlConnection(_connectionString);
+                connection.Open();
+                using var command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+
+                string selectProductsSql =
+                    @"
+                    SELECT name, description, currency, default_price, product_category, image_path
+                    FROM product
+                    WHERE supplier=@Supplier;
+                    ";
+
+                command.CommandText = selectProductsSql;
+                command.Parameters.AddWithValue("@Supplier", supplier);
+
+                using var reader = command.ExecuteReader();
+                List<Product> data = null;
+
+                while (reader.Read())
+                {
+                    string name = (string)reader["name"];
+                    string description = (string)reader["description"];
+                    string department = (string)reader["department"];
+                    string currency = (string)reader["currency"];
+                    decimal defaultPrice = (decimal)reader["default_price"];
+                    ProductCategory productCategory = (ProductCategory)reader["product_category"];
+                    string imagePath = (string)reader["image_path"];
+
+                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
+                    data.Add(product);
+                }
+
+                return data;
+            }
+            catch (SqlException exception)
+            {
+                throw exception;
+            }
         }
 
         public IEnumerable<Product> GetBy(ProductCategory productCategory)
         {
-            return data.Where(x => x.ProductCategory.Id == productCategory.Id);
+            try
+            {
+                using var connection = new SqlConnection(_connectionString);
+                connection.Open();
+                using var command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+
+                string selectProductsSql =
+                    @"
+                    SELECT name, description, currency, default_price, supplier, image_path
+                    FROM product
+                    WHERE product_category=@ProductCategory;
+                    ";
+
+                command.CommandText = selectProductsSql;
+                command.Parameters.AddWithValue("@ProductCategory", productCategory);
+
+                using var reader = command.ExecuteReader();
+                List<Product> data = null;
+
+                while (reader.Read())
+                {
+                    string name = (string)reader["name"];
+                    string description = (string)reader["description"];
+                    string department = (string)reader["department"];
+                    string currency = (string)reader["currency"];
+                    decimal defaultPrice = (decimal)reader["default_price"];
+                    Supplier supplier = (Supplier)reader["supplier"];
+                    string imagePath = (string)reader["image_path"];
+
+                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
+                    data.Add(product);
+                }
+
+                return data;
+            }
+            catch (SqlException exception)
+            {
+                throw exception;
+            }
         }
     }
 }
