@@ -64,7 +64,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@Id", id);
 
                 using var reader = command.ExecuteReader();
-                Supplier item = null;
+                Supplier item = new Supplier();
 
                 if (reader.Read())
                 {
