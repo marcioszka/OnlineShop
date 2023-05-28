@@ -39,6 +39,7 @@ namespace Codecool.CodecoolShop.Controllers
             dynamic myModel = new ExpandoObject();
             myModel.Products = ProductService.GetAllProducts();
             myModel.Categories = ProductService.GetProductCategories();
+            myModel.Suppliers = ProductService.GetSuppliers();
             //return View(products.ToList());
             return View(myModel);
         }
