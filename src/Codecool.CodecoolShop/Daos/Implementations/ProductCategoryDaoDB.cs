@@ -8,12 +8,12 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductCategoryDaoDB : IProductCategoryDao
     {
-        private readonly string _connectionString;
+        private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
         private static ProductCategoryDaoDB instance = null;
 
         private ProductCategoryDaoDB()
         {
-            _connectionString = ConfigurationManager.AppSettings["connectionString"];
+            //_connectionString = ConfigurationManager.AppSettings["ConnectionString"];
         }
 
         public static ProductCategoryDaoDB GetInstance()

@@ -9,7 +9,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductDaoDB : IProductDao
     {
-        private readonly string _connectionString;
+        private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
         
         private List<Product> data = new List<Product>();
 
@@ -17,7 +17,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         private ProductDaoDB()
         {
-            _connectionString = ConfigurationManager.AppSettings["connectionString"];
+            //_connectionString = ConfigurationManager.AppSettings["ConnectionString"];
         }
 
         public static ProductDaoDB GetInstance()
@@ -93,7 +93,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandText = selectProductsSql;
                 
                 using var reader = command.ExecuteReader();
-                List<Product> data = null;
+                List<Product> data = new List<Product>();
 
                 while (reader.Read())
                 {
@@ -101,11 +101,14 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string description = (string)reader["description"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
-                    ProductCategory productCategory = (ProductCategory)reader["product_category"];
-                    Supplier supplier = (Supplier)reader["supplier"];
+                    string productCategory = (string)reader["product_category"];
+                    string productSupplier = (string)reader["supplier"];
                     string imagePath = (string)reader["image_path"];
 
-                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
+                    ProductCategory category = new ProductCategory() { Name=productCategory};
+                    Supplier supplier = new Supplier() { Name = productSupplier };
+
+                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier, ImagePath = imagePath };
                     data.Add(product);
                 }
 
@@ -128,7 +131,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT name, description, currency, default_price, product_category, image_path
+                    SELECT id, name, description, currency, default_price, product_category, image_path
                     FROM product
                     WHERE supplier=@Supplier;
                     ";
@@ -137,10 +140,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@Supplier", supplier);
 
                 using var reader = command.ExecuteReader();
-                List<Product> data = null;
+                List<Product> data = new List<Product>();
 
                 while (reader.Read())
                 {
+                    int id = (int)reader["id"];
                     string name = (string)reader["name"];
                     string description = (string)reader["description"];
                     string department = (string)reader["department"];
@@ -149,7 +153,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     ProductCategory productCategory = (ProductCategory)reader["product_category"];
                     string imagePath = (string)reader["image_path"];
 
-                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
+                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
                     data.Add(product);
                 }
 
@@ -172,7 +176,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT name, description, currency, default_price, supplier, image_path
+                    SELECT id, name, description, currency, default_price, supplier, image_path
                     FROM product
                     WHERE product_category=@ProductCategory;
                     ";
@@ -181,10 +185,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@ProductCategory", productCategory);
 
                 using var reader = command.ExecuteReader();
-                List<Product> data = null;
+                List<Product> data = new List<Product>();
 
                 while (reader.Read())
                 {
+                    int id = (int)reader["id"];
                     string name = (string)reader["name"];
                     string description = (string)reader["description"];
                     string department = (string)reader["department"];
@@ -193,7 +198,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     Supplier supplier = (Supplier)reader["supplier"];
                     string imagePath = (string)reader["image_path"];
 
-                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
+                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
                     data.Add(product);
                 }
 
