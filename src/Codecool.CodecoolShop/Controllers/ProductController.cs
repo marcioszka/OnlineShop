@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
 using System.Configuration;
+using System.Dynamic;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -21,21 +22,30 @@ namespace Codecool.CodecoolShop.Controllers
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
+            //ProductService = new ProductService(
+            //    ProductDaoMemory.GetInstance(),
+            //    ProductCategoryDaoMemory.GetInstance());
             ProductService = new ProductService(
-                ProductDaoMemory.GetInstance(),
-                ProductCategoryDaoMemory.GetInstance());
+                ProductDaoDB.GetInstance(),
+                ProductCategoryDaoDB.GetInstance());
         }
 
         public IActionResult Index()
         {
-            var products = ProductService.GetProductsForCategory(1);
-            return View(products.ToList());
+            //var products = ProductService.GetProductsForCategory(1);
+            //var products = ProductService.GetAllProducts();
+            //var categories = ProductService.GetProductCategories();
+            dynamic myModel = new ExpandoObject();
+            myModel.Products = ProductService.GetAllProducts();
+            myModel.Categories = ProductService.GetProductCategories();
+            //return View(products.ToList());
+            return View(myModel);
         }
 
         public IActionResult Category(int id) //int id
         {
-            //var products = ProductService.GetProductsForCategory(1);
-            return View();
+            var products = ProductService.GetProductsForCategory(id);
+            return View(products.ToList());
         }
 
         public IActionResult Supplier(string supplier) //int id
