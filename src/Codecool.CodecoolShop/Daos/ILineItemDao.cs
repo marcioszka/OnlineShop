@@ -2,7 +2,7 @@
 
 namespace Codecool.CodecoolShop.Daos
 {
-    public interface IOrderDao : IDao<Order>
+    public interface ILineItemDao : IDao<LineItem>
     {
 
     }
