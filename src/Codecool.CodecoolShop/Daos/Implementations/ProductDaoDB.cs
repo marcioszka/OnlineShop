@@ -41,8 +41,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string insertProductSql =
                     @"
-                    INSERT INTO product (name, description, currency, default_price, product_category, supplier, image_path)
-                    VALUES (@Name, @Description, @Currency, @DefaultPrice, @ProductCategory, @Supplier, @ImagePath);
+                    INSERT INTO product (name, description, currency, default_price, product_category, supplier)
+                    VALUES (@Name, @Description, @Currency, @DefaultPrice, @ProductCategory, @Supplier);
 
                     SELECT SCOPE_IDENTITY();
                     ";
@@ -54,7 +54,6 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@DefaultPrice", item.DefaultPrice);
                 command.Parameters.AddWithValue("@ProductCategory", item.ProductCategory);
                 command.Parameters.AddWithValue("@Supplier", item.Supplier);
-                command.Parameters.AddWithValue("@ImagePath", item.ImagePath);
 
                 int itemId = Convert.ToInt32(command.ExecuteScalar());
                 item.Id = itemId;
@@ -86,7 +85,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT name, description, currency, default_price, product_category, supplier, image_path
+                    SELECT name, description, currency, default_price, product_category, supplier
                     FROM product;
                     ";
 
@@ -103,12 +102,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     decimal defaultPrice = (decimal)reader["default_price"];
                     string productCategory = (string)reader["product_category"];
                     string productSupplier = (string)reader["supplier"];
-                    string imagePath = (string)reader["image_path"];
 
                     ProductCategory category = new ProductCategory() { Name=productCategory};
                     Supplier supplier = new Supplier() { Name = productSupplier };
 
-                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier, ImagePath = imagePath };
+                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
                     data.Add(product);
                 }
 
@@ -131,7 +129,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT id, name, description, currency, default_price, product_category, image_path
+                    SELECT id, name, description, currency, default_price, product_category
                     FROM product
                     WHERE supplier=@Supplier;
                     ";
@@ -150,11 +148,10 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
                     string productCategory = (string)reader["product_category"];
-                    string imagePath = (string)reader["image_path"];
 
                     ProductCategory category = new ProductCategory() { Name = productCategory };
 
-                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier, ImagePath = imagePath };
+                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
                     data.Add(product);
                 }
 
@@ -177,7 +174,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT id, name, description, currency, default_price, supplier, image_path
+                    SELECT id, name, description, currency, default_price, supplier
                     FROM product
                     WHERE product_category=@ProductCategory;
                     ";
@@ -196,11 +193,10 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
                     string productSupplier = (string)reader["supplier"];
-                    string imagePath = (string)reader["image_path"];
 
                     Supplier supplier = new Supplier() { Name = productSupplier };
 
-                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier, ImagePath = imagePath };
+                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier };
                     data.Add(product);
                 }
 

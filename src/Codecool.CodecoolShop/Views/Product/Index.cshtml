@@ -12,10 +12,10 @@
     </div>
         <div class="filter" style="position: relative; display: flex; margin: auto">
             <div class="col-lg-6">
-                <div class="col"><a asp-action="Index" asp-controller="Product">ALL</a></div>
+                <div class="col-lg-auto"><a asp-action="Index" asp-controller="Product">ALL</a></div>
                 @foreach (ProductCategory category in Model.Categories)
                 {
-                    <div class="col">
+                <div class="col-lg-auto">
                         <a asp-action="Category" asp-controller="Product" asp-route-id="@category.Id">@category.Name</a>
                     </div>
                 }
@@ -23,7 +23,7 @@
             <div class="col-lg-6">
             @foreach (var supplier in Model.Suppliers)
             {
-                <div class="col">
+                <div class="col-lg-auto">
                     <a asp-action="Supplier" asp-controller="Product" asp-route-id="@supplier.Id">@supplier.Name</a>
                 </div>
             }
@@ -39,7 +39,7 @@
     {
         <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
             <div class="card">
-                <img src="@element.ImagePath" style="height: 50%; width: 50%; align-self: center; padding-top: 10px"><!--change src attr to src="img/at(element.Name).jpg"-->
+                <img src="img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px"><!--change src attr to src="img/at(element.Name).jpg"-->
 
                 <div class="card-body">
                     <h5 class="card-title text-center">
