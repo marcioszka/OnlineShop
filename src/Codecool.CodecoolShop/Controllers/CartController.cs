@@ -13,8 +13,8 @@ namespace Codecool.CodecoolShop.Controllers
         public CartController(ILogger<CartController> logger)
         {
             _logger = logger;
-            //CartService = new CartService(
-            //    OrderDaoDB.GetInstance();
+            CartService = new CartService(
+                OrderDaoDB.GetInstance());
         }
 
         public IActionResult Index()
