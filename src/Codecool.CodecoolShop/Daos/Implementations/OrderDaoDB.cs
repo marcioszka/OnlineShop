@@ -101,7 +101,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
         }
 
-        public List<LineItem> GetOrderDetails(int orderId)
+        public IEnumerable<LineItem> GetOrderDetails(int orderId)
         {
             try
             {

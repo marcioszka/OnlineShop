@@ -5,8 +5,8 @@ namespace Codecool.CodecoolShop.Daos
 {
     public interface IOrderDao : IDao<Order>
     {
-        public void AddOrderDetails(Order item);
+        public void AddOrderDetails(Order order);
 
-        public List<LineItem> GetOrderDetails(Order item);
+        public IEnumerable<LineItem> GetOrderDetails(int id);
     }
 }
