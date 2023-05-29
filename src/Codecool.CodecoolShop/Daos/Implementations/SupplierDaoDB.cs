@@ -13,7 +13,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         private SupplierDaoDB()
         {
-            //_connectionString = ConfigurationManager.AppSettings["ConnectionString"];
+            //_connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
         public static SupplierDaoDB GetInstance()

@@ -17,7 +17,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         private ProductDaoDB()
         {
-            //_connectionString = ConfigurationManager.AppSettings["ConnectionString"];
+            //_connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
         public static ProductDaoDB GetInstance()
