@@ -56,6 +56,11 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Index", myModel);
         }
 
+        public IActionResult AddToCart()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
