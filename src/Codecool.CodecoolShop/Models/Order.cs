@@ -7,7 +7,6 @@ namespace Codecool.CodecoolShop.Models
         private static int idCounter = 0;
         public int Id { get; set; }
         public List<LineItem> Items { get; set; }
-
         public Order(string name, decimal price) 
         {
             this.Id = System.Threading.Interlocked.Increment(ref idCounter);
