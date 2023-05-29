@@ -3,29 +3,32 @@
     ViewData["Title"] = "Home Page";    
 }
 
-<div class="filter">
-    <h3>VIEW PRODUCTS BY</h3>
-    <div class="category">
-        <div class="category-body">
-            <h5 class="category-title text-left">CATEGORY</h5>
-            <p class="category-text"><a asp-action="Index" asp-controller="Product">ALL PRODUCTS</a></p>
-        @foreach(ProductCategory category in Model.Categories)
-        {
-            <p class="category-text">
-                <a asp-action="Category" asp-controller="Product" asp-route-id="@category.Id">@category.Name</a>
-                </p>
-        }
-    </div></div>
-    <div class="supplier">
-        <div class="supplier-body">
-            <h5 class="supplier-title text-left">SUPPLIER</h5>
-        @foreach (var supplier in Model.Suppliers)
-        {
-            <p class="supplier-text">
+<div class="container">
+    <h4>VIEW PRODUCTS BY</h4>
+    <div class="filter-headers">
+        <div class="col-lg-6" style="position: relative; display: flex;">
+            <h5 class="category-title text-left">CATEGORY</h5></div>
+        <div class="col-lg-6" style="position: relative; display: flex;"><h5 class="supplier-title text-left">SUPPLIER</h5></div>
+    </div>
+        <div class="filter" style="position: relative; display: flex; margin: auto">
+            <div class="col-lg-6">
+                <div class="col"><a asp-action="Index" asp-controller="Product">ALL</a></div>
+                @foreach (ProductCategory category in Model.Categories)
+                {
+                    <div class="col">
+                        <a asp-action="Category" asp-controller="Product" asp-route-id="@category.Id">@category.Name</a>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-6">
+            @foreach (var supplier in Model.Suppliers)
+            {
+                <div class="col">
                     <a asp-action="Supplier" asp-controller="Product" asp-route-id="@supplier.Id">@supplier.Name</a>
-            </p>
-        }
-    </div></div>
+                </div>
+            }
+            </div>
+        </div>
 </div>
 @{
     var num = 1;
