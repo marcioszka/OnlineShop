@@ -8,13 +8,13 @@ namespace Codecool.CodecoolShop.Controllers
     public class CartController : Controller
     {
         private readonly ILogger<CartController> _logger;
-        //public CartService CartService { get; set; }
+        public CartService CartService { get; set; }
 
         public CartController(ILogger<CartController> logger)
         {
             _logger = logger;
             //CartService = new CartService(
-            //    ProductDaoDB.GetInstance();
+            //    OrderDaoDB.GetInstance();
         }
 
         public IActionResult Index()
