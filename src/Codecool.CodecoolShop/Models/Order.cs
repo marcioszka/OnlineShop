@@ -12,5 +12,15 @@ namespace Codecool.CodecoolShop.Models
             this.Id = System.Threading.Interlocked.Increment(ref idCounter);
             this.Items = new List<LineItem>{ new LineItem(name, price)  };
         }
+
+        public override string ToString()
+        {
+            string orderDetails = "";
+            foreach (LineItem item in Items)
+            {
+                orderDetails += $"{item.Name}-{item.Quantity}-{item.Price};";
+            }
+            return orderDetails;
+        }
     }
 }
