@@ -9,7 +9,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
     public class SupplierDaoDB : ISupplierDao
     {
         private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
-        private static SupplierDaoDB instance = null;
+        private static SupplierDaoDB instance;
 
         private SupplierDaoDB()
         {

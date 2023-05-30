@@ -6,7 +6,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
     public class SupplierDaoMemory : ISupplierDao
     {
         private List<Supplier> data = new List<Supplier>();
-        private static SupplierDaoMemory instance = null;
+        private static SupplierDaoMemory instance;
 
         private SupplierDaoMemory()
         {

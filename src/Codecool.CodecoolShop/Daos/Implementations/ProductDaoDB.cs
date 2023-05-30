@@ -13,7 +13,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
         
         private List<Product> data = new List<Product>();
 
-        private static ProductDaoDB instance = null;
+        private static ProductDaoDB instance;
 
         private ProductDaoDB()
         {
