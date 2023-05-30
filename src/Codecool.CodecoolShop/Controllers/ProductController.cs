@@ -63,15 +63,17 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Index", myModel);
         }
 
-        public IActionResult AddedToCart(string name, decimal price)
+        public IActionResult AddedToCart(string name, decimal price) //id produktu, z DB zczytac produkt, z tego nazwe i cene
         {
-            Order.AddLineItem(name, price);
+            this.Order.AddLineItem(name, price);
             dynamic myModel = new ExpandoObject();
             myModel.Products = ProductService.GetAllProducts();
             myModel.Categories = ProductService.GetProductCategories();
             myModel.Suppliers = ProductService.GetSuppliers();
             ViewData["ItemsInCart"] = this.Order.Items.Count;
             ViewData["OrderId"] = this.Order.Id;
+            ViewData["Name"] = name;
+            ViewData["Price"] = price;
             return View("Index", myModel);
         }
 
