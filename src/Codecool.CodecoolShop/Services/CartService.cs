@@ -5,20 +5,23 @@ using Codecool.CodecoolShop.Models;
 
 namespace Codecool.CodecoolShop.Services
 {
-    public class CartService
+    public class CartService : Order
     {
         private readonly IOrderDao orderDaoDB;
         //private readonly ILineItemDao lineItemDao;
+        //public Order Order { get; set; }
 
         public CartService(IOrderDao orderDaoDB)
         {
             this.orderDaoDB = orderDaoDB;
         }
 
-        public void SaveOrder(Order order)
+        //public void CreateOrder() => this.Order = new Order();
+
+        public void SaveOrder(Order Order)
         {
-            this.orderDaoDB.AddOrderDetails(order);
-            this.orderDaoDB.Add(order);
+            this.orderDaoDB.AddOrderDetails(Order);
+            this.orderDaoDB.Add(Order);
         }
 
         public IEnumerable<LineItem> GetAllOrders(int id) => this.orderDaoDB.GetOrderDetails(id);
