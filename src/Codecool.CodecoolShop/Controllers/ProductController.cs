@@ -71,7 +71,16 @@ namespace Codecool.CodecoolShop.Controllers
             myModel.Categories = ProductService.GetProductCategories();
             myModel.Suppliers = ProductService.GetSuppliers();
             ViewData["ItemsInCart"] = this.Order.Items.Count;
+            ViewData["OrderId"] = this.Order.Id;
             return View("Index", myModel);
+        }
+
+        public ActionResult Cart(int orderId)
+        {
+            dynamic order = new ExpandoObject();
+            order.Id = orderId;
+            order.Details = this.Order.Items;
+            return View(order);
         }
 
         public IActionResult Privacy()
