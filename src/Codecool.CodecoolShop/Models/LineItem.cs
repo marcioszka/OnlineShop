@@ -2,7 +2,7 @@
 {
     public class LineItem
     {
-        private static int idCounter = 0;
+        private static int idCounter = 1;
         public int Id { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
