@@ -1,7 +1,9 @@
 ﻿using Codecool.CodecoolShop.Daos.Implementations;
+using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Dynamic;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -14,7 +16,8 @@ namespace Codecool.CodecoolShop.Controllers
         {
             _logger = logger;
             CartService = new CartService(
-                OrderDaoDB.GetInstance());
+                OrderDaoDB.GetInstance()
+                );
         }
 
         public IActionResult Index()

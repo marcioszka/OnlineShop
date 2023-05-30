@@ -18,6 +18,10 @@ namespace Codecool.CodecoolShop.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         public ProductService ProductService { get; set; }
+        
+        public CartService CartService { get; set; }
+
+        public Order Order { get; set; }
 
         public ProductController(ILogger<ProductController> logger)
         {
@@ -26,6 +30,9 @@ namespace Codecool.CodecoolShop.Controllers
                 ProductDaoDB.GetInstance(),
                 ProductCategoryDaoDB.GetInstance(),
                 SupplierDaoDB.GetInstance());
+            CartService = new CartService(OrderDaoDB.GetInstance()
+                );
+            Order = new Order();
         }
 
         public IActionResult Index()
@@ -56,9 +63,15 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Index", myModel);
         }
 
-        public IActionResult AddToCart()
+        public IActionResult AddedToCart(string name, decimal price)
         {
-            return View();
+            Order.AddLineItem(name, price);
+            dynamic myModel = new ExpandoObject();
+            myModel.Products = ProductService.GetAllProducts();
+            myModel.Categories = ProductService.GetProductCategories();
+            myModel.Suppliers = ProductService.GetSuppliers();
+            ViewData["ItemsInCart"] = this.Order.Items.Count;
+            return View("Index", myModel);
         }
 
         public IActionResult Privacy()
