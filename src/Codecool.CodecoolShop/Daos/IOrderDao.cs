@@ -8,5 +8,7 @@ namespace Codecool.CodecoolShop.Daos
         public void AddOrderDetails(Order order);
 
         public IEnumerable<LineItem> GetOrderDetails(int id);
+
+        public LineItem GetProductDetails(int id);
     }
 }

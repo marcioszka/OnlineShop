@@ -31,9 +31,6 @@ namespace Codecool.CodecoolShop.Controllers
                 ProductDaoDB.GetInstance(),
                 ProductCategoryDaoDB.GetInstance(),
                 SupplierDaoDB.GetInstance());
-            CartService = new CartService(OrderDaoDB.GetInstance()
-                );
-            //Order = new Order();
         }
 
         public IActionResult Index()

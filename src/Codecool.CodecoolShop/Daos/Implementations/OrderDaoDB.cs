@@ -130,12 +130,51 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     decimal price = (decimal)reader["price"];
                     int quantity = (int)reader["quantity"];
 
-                    LineItem item = new LineItem(name, price, quantity) { Id = id };
-
+                    LineItem item = new LineItem(id, name, price, quantity);
+                   
                     data.Add(item);
                 }
 
                 return data;
+            }
+            catch (SqlException exception)
+            {
+                throw exception;
+            }
+        }
+
+        public LineItem GetProductDetails(int productId)
+        {
+            try
+            {
+                using var connection = new SqlConnection(_connectionString);
+                connection.Open();
+                using var command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+
+                string selectProductDetailsSql =
+                    @"
+                    SELECT name, default_price
+                    FROM product
+                    WHERE id=@Id;
+                    ";
+
+                command.CommandText = selectProductDetailsSql;
+                command.Parameters.AddWithValue("@Id", productId);
+
+                using var reader = command.ExecuteReader();
+                LineItem item = new LineItem(productId, string.Empty, 0.0m);
+
+                if (reader.Read())
+                {
+                    string name = (string)reader["name"];
+                    decimal defaultPrice = (decimal)reader["default_price"];
+
+                    item.Name = name;
+                    item.Price = defaultPrice;
+                    item.Quantity = 1;
+                }
+                return item;
             }
             catch (SqlException exception)
             {

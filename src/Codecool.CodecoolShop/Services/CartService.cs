@@ -24,6 +24,10 @@ namespace Codecool.CodecoolShop.Services
             this.orderDaoDB.Add(Order);
         }
 
+        public LineItem GetProductDetails(int id) => this.orderDaoDB.GetProductDetails(id);
+
         public IEnumerable<LineItem> GetAllOrders(int id) => this.orderDaoDB.GetOrderDetails(id);
+
+
     }
 }

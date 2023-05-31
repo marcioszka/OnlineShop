@@ -6,7 +6,7 @@ namespace Codecool.CodecoolShop.Models
 {
     public class Order
     {
-        private static int idCounter = 1;
+        private static int idCounter;
         public int Id { get; set; }
 
         public int userId { get; set; }
@@ -31,8 +31,9 @@ namespace Codecool.CodecoolShop.Models
         //    return instance;
         //}
         public static Order GetInstance() => new Order();
-        public void AddLineItem(string name, decimal price) => this.Items.Add(new LineItem(name, price));
+        //public void AddLineItem(int id, string name, decimal price) => this.Items.Add(new LineItem(id, name, price));
 
+        public void AddLineItem(LineItem item) => this.Items.Add(item);
 
         public override string ToString()
         {

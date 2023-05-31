@@ -52,6 +52,7 @@ namespace Codecool.CodecoolShop.Controllers
             else
             {
                 Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+                //order.Items.ForEach(lineItem => { lineItem.Price = lineItem.Price*0.1 });
                 cart.Id = order.Id;
                 cart.Items = order.Items;
                 cart.Sum = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity);
@@ -76,10 +77,12 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Add(int id, string name, decimal price)
         {
+            //LineItem lineItem = CartService.GetProductDetails(id);
+            LineItem item = new LineItem(id, name, price);
             if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null) 
             {
                 Order order = new Order();
-                order.AddLineItem(name, price);
+                order.AddLineItem(item);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             }
             else
@@ -87,7 +90,7 @@ namespace Codecool.CodecoolShop.Controllers
                 Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
                 int indexInCart = isInCart(id);
                 if (indexInCart != -1) order.Items[indexInCart].Quantity++;
-                else order.AddLineItem(name, price);
+                else order.AddLineItem(item);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             }
             return RedirectToAction("Index", "Product");

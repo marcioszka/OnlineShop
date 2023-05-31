@@ -120,6 +120,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
         }
 
+
         public IEnumerable<Product> GetAll()
         {
             try
