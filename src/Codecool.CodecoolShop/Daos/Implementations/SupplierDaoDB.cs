@@ -6,24 +6,24 @@ using System.Data;
 
 namespace Codecool.CodecoolShop.Daos.Implementations
 {
-    public class SupplierDaoDB : ISupplierDao
+    public class SupplierDaoDb : ISupplierDao
     {
         private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
-        private static SupplierDaoDB instance;
+        private static SupplierDaoDb _instance;
 
-        private SupplierDaoDB()
+        private SupplierDaoDb()
         {
             //_connectionString = ConfigurationManager.AppSettings["ConnectionString"];
         }
 
-        public static SupplierDaoDB GetInstance()
+        public static SupplierDaoDb GetInstance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new SupplierDaoDB();
+                _instance = new SupplierDaoDb();
             }
 
-            return instance;
+            return _instance;
         }
 
         public void Add(Supplier item)
@@ -53,7 +53,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 using var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
 
-                string selectSupplierSql =
+                var selectSupplierSql =
                     @"
                     SELECT name, description
                     FROM supplier
@@ -64,12 +64,12 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@Id", id);
 
                 using var reader = command.ExecuteReader();
-                Supplier item = new Supplier();
+                var item = new Supplier();
 
                 if (reader.Read())
                 {
-                    string name = (string)reader["name"];
-                    string description = (string)reader["description"];
+                    var name = (string)reader["name"];
+                    var description = (string)reader["description"];
 
 
                     item.Id = id;
@@ -80,7 +80,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -93,7 +93,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 using var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
 
-                string selectSuppliersSql =
+                var selectSuppliersSql =
                     @"
                     SELECT id, name, description
                     FROM supplier;
@@ -102,16 +102,16 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandText = selectSuppliersSql;
 
                 using var reader = command.ExecuteReader();
-                List<Supplier> data = new List<Supplier>();
+                var data = new List<Supplier>();
 
                 while (reader.Read())
                 {
-                    int id = (int)reader["id"];
-                    string name = (string)reader["name"];
-                    string description = (string)reader["description"];
+                    var id = (int)reader["id"];
+                    var name = (string)reader["name"];
+                    var description = (string)reader["description"];
                     
 
-                    Supplier supplier = new Supplier() { Id = id, Name = name, Description = description };
+                    var supplier = new Supplier() { Id = id, Name = name, Description = description };
                     data.Add(supplier);
                 }
 
@@ -119,7 +119,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
     }

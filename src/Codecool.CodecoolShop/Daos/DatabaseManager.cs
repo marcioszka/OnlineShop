@@ -7,7 +7,7 @@ namespace Codecool.CodecoolShop.Daos
     {
         public string ConnectionString => ConfigurationManager.AppSettings["connectionString"];
 
-        public void ConnectToDB()
+        public void ConnectToDb()
         {
             using var connection = new SqlConnection(ConnectionString);
             connection.Open();

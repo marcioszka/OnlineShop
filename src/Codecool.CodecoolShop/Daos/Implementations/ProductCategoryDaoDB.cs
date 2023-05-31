@@ -1,29 +1,29 @@
 ﻿using Codecool.CodecoolShop.Models;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 
 namespace Codecool.CodecoolShop.Daos.Implementations
 {
-    public class ProductCategoryDaoDB : IProductCategoryDao
+    public class ProductCategoryDaoDb : IProductCategoryDao
     {
-        private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
-        private static ProductCategoryDaoDB instance;
+    private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER201 Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
+    private static ProductCategoryDaoDb _instance;
 
-        private ProductCategoryDaoDB()
-        {
-            //_connectionString = ConfigurationManager.AppSettings["ConnectionString"];
+
+        private ProductCategoryDaoDb()
+        { 
+            _instance = Instance;
         }
 
-        public static ProductCategoryDaoDB GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new ProductCategoryDaoDB();
-            }
+        private static ProductCategoryDaoDb Instance { get; } = new();
 
-            return instance;
+        public static ProductCategoryDaoDb GetInstance()
+        {
+            if (_instance != null) return _instance;
+            _instance = Instance;
+
+            return _instance;
         }
 
         public void Add(ProductCategory item)
@@ -46,44 +46,33 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public ProductCategory Get(int id)
         {
-            try
+            using var connection = new SqlConnection(_connectionString);
+            using var command = connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+    
+            var selectCategorySql =
+                $@"{"ARG"}SELECT name, description, department FROM category WHERE id = @Id; ";
+
+            command.CommandText = selectCategorySql;
+            command.Parameters.AddWithValue("@Id", id);
+
+            connection.Open();
+            using var reader = command.ExecuteReader();
+
+            if (!reader.Read()) return null; // Return null if no matching category found
+            var name = (string)reader["name"];
+            var description = (string)reader["description"];
+            var department = (string)reader["department"];
+
+            return new ProductCategory
             {
-                using var connection = new SqlConnection(_connectionString);
-                connection.Open();
-                using var command = connection.CreateCommand();
-                command.CommandType = CommandType.Text;
-                
-                string selectCategorySql =
-                    @"
-                    SELECT name, description, department
-                    FROM category
-                    WHERE id=@Id;
-                    ";
-
-                command.CommandText = selectCategorySql;
-                command.Parameters.AddWithValue("@Id", id);
-
-                using var reader = command.ExecuteReader();
-                ProductCategory item = new ProductCategory();
-
-                if (reader.Read())
-                {
-                    string name = (string)reader["name"];
-                    string description = (string)reader["description"];
-                    string department = (string)reader["department"];
-
-                    item.Id = id;
-                    item.Name = name;
-                    item.Description = description;
-                    item.Department = department;
-                }
-                return item;
-            }
-            catch (SqlException exception)
-            {
-                throw exception;
-            }
+                Id = id,
+                Name = name,
+                Description = description,
+                Department = department
+            };
         }
+
 
         public IEnumerable<ProductCategory> GetAll()
         {
@@ -94,8 +83,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 using var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
 
-                string selectCategoriesSql =
-                    @"
+                var selectCategoriesSql =
+                    $@"{"ARG"}
                     SELECT id, name, description, department
                     FROM category;
                     ";
@@ -103,17 +92,17 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandText = selectCategoriesSql;
 
                 using var reader = command.ExecuteReader();
-                List<ProductCategory> data = new List<ProductCategory>();
+                var data = new List<ProductCategory>();
 
                 while (reader.Read())
                 {
-                    int id = (int)reader["id"];
-                    string name = (string)reader["name"];
-                    string description = (string)reader["description"];
-                    string department = (string)reader["department"];
+                    var id = (int)reader["id"];
+                    var name = (string)reader["name"];
+                    var description = (string)reader["description"];
+                    var department = (string)reader["department"];
 
 
-                    ProductCategory category = new ProductCategory() { Id = id, Name = name, Description = description, Department = department };
+                    var category = new ProductCategory() { Id = id, Name = name, Description = description, Department = department };
                     data.Add(category);
                 }
 
@@ -121,8 +110,9 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                if (exception != null) throw;
             }
+            return null;
         }
     }
 }

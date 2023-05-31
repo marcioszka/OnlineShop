@@ -7,27 +7,27 @@ using System.Data;
 
 namespace Codecool.CodecoolShop.Daos.Implementations
 {
-    public class ProductDaoDB : IProductDao
+    public class ProductDaoDb : IProductDao
     {
         private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
         
-        private List<Product> data = new List<Product>();
+        private List<Product> _data = new List<Product>();
 
-        private static ProductDaoDB instance;
+        private static ProductDaoDb _instance;
 
-        private ProductDaoDB()
+        private ProductDaoDb()
         {
             //_connectionString = ConfigurationManager.AppSettings["ConnectionString"];
         }
 
-        public static ProductDaoDB GetInstance()
+        public static ProductDaoDb GetInstance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new ProductDaoDB();
+                _instance = new ProductDaoDb();
             }
 
-            return instance;
+            return _instance;
         }
 
         public void Add(Product item)
@@ -39,7 +39,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 using var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
 
-                string insertProductSql =
+                var insertProductSql =
                     @"
                     INSERT INTO product (name, description, currency, default_price, product_category, supplier)
                     VALUES (@Name, @Description, @Currency, @DefaultPrice, @ProductCategory, @Supplier);
@@ -55,12 +55,12 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@ProductCategory", item.ProductCategory);
                 command.Parameters.AddWithValue("@Supplier", item.Supplier);
 
-                int itemId = Convert.ToInt32(command.ExecuteScalar());
+                var itemId = Convert.ToInt32(command.ExecuteScalar());
                 item.Id = itemId;
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -71,7 +71,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public Product Get(int id)
         {
-            return data.Find(x => x.Id == id);
+            return _data.Find(x => x.Id == id);
         }
 
         public IEnumerable<Product> GetAll()
@@ -83,7 +83,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 using var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
 
-                string selectProductsSql =
+                var selectProductsSql =
                     @"
                     SELECT name, description, currency, default_price, product_category, supplier
                     FROM product;
@@ -92,19 +92,19 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandText = selectProductsSql;
                 
                 using var reader = command.ExecuteReader();
-                List<Product> data = new List<Product>();
+                var data = new List<Product>();
 
                 while (reader.Read())
                 {
-                    string name = (string)reader["name"];
-                    string description = (string)reader["description"];
-                    string currency = (string)reader["currency"];
-                    decimal defaultPrice = (decimal)reader["default_price"];
-                    string productCategory = (string)reader["product_category"];
-                    string productSupplier = (string)reader["supplier"];
+                    var name = (string)reader["name"];
+                    var description = (string)reader["description"];
+                    var currency = (string)reader["currency"];
+                    var defaultPrice = (decimal)reader["default_price"];
+                    var productCategory = (string)reader["product_category"];
+                    var productSupplier = (string)reader["supplier"];
 
-                    ProductCategory category = new ProductCategory() { Name=productCategory};
-                    Supplier supplier = new Supplier() { Name = productSupplier };
+                    var category = new ProductCategory() { Name=productCategory};
+                    var supplier = new Supplier() { Name = productSupplier };
 
                     var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
                     data.Add(product);
@@ -114,7 +114,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -127,7 +127,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 using var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
 
-                string selectProductsSql =
+                var selectProductsSql =
                     @"
                     SELECT id, name, description, currency, default_price, product_category
                     FROM product
@@ -138,18 +138,18 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@Supplier", supplier.Name);
 
                 using var reader = command.ExecuteReader();
-                List<Product> data = new List<Product>();
+                var data = new List<Product>();
 
                 while (reader.Read())
                 {
-                    int id = (int)reader["id"];
-                    string name = (string)reader["name"];
-                    string description = (string)reader["description"];
-                    string currency = (string)reader["currency"];
-                    decimal defaultPrice = (decimal)reader["default_price"];
-                    string productCategory = (string)reader["product_category"];
+                    var id = (int)reader["id"];
+                    var name = (string)reader["name"];
+                    var description = (string)reader["description"];
+                    var currency = (string)reader["currency"];
+                    var defaultPrice = (decimal)reader["default_price"];
+                    var productCategory = (string)reader["product_category"];
 
-                    ProductCategory category = new ProductCategory() { Name = productCategory };
+                    var category = new ProductCategory() { Name = productCategory };
 
                     var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
                     data.Add(product);
@@ -159,7 +159,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -172,7 +172,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 using var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
 
-                string selectProductsSql =
+                var selectProductsSql =
                     @"
                     SELECT id, name, description, currency, default_price, supplier
                     FROM product
@@ -182,19 +182,19 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandText = selectProductsSql;
                 command.Parameters.AddWithValue("@ProductCategory", productCategory.Name);
 
-                List<Product> data = new List<Product>();
+                var data = new List<Product>();
                 using var reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    int id = (int)reader["id"];
-                    string name = (string)reader["name"];
-                    string description = (string)reader["description"];
-                    string currency = (string)reader["currency"];
-                    decimal defaultPrice = (decimal)reader["default_price"];
-                    string productSupplier = (string)reader["supplier"];
+                    var id = (int)reader["id"];
+                    var name = (string)reader["name"];
+                    var description = (string)reader["description"];
+                    var currency = (string)reader["currency"];
+                    var defaultPrice = (decimal)reader["default_price"];
+                    var productSupplier = (string)reader["supplier"];
 
-                    Supplier supplier = new Supplier() { Name = productSupplier };
+                    var supplier = new Supplier() { Name = productSupplier };
 
                     var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier };
                     data.Add(product);
@@ -204,7 +204,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
     }

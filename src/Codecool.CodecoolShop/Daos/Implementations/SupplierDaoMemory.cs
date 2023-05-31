@@ -5,8 +5,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class SupplierDaoMemory : ISupplierDao
     {
-        private List<Supplier> data = new List<Supplier>();
-        private static SupplierDaoMemory instance;
+        private List<Supplier> _data = new List<Supplier>();
+        private static SupplierDaoMemory _instance;
 
         private SupplierDaoMemory()
         {
@@ -14,33 +14,33 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public static SupplierDaoMemory GetInstance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new SupplierDaoMemory();
+                _instance = new SupplierDaoMemory();
             }
 
-            return instance;
+            return _instance;
         }
 
         public void Add(Supplier item)
         {
-            item.Id = data.Count + 1;
-            data.Add(item);
+            item.Id = _data.Count + 1;
+            _data.Add(item);
         }
 
         public void Remove(int id)
         {
-            data.Remove(this.Get(id));
+            _data.Remove(this.Get(id));
         }
 
         public Supplier Get(int id)
         {
-            return data.Find(x => x.Id == id);
+            return _data.Find(x => x.Id == id);
         }
 
         public IEnumerable<Supplier> GetAll()
         {
-            return data;
+            return _data;
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     class ProductCategoryDaoMemory : IProductCategoryDao
     {
-        private List<ProductCategory> data = new List<ProductCategory>();
-        private static ProductCategoryDaoMemory instance;
+        private List<ProductCategory> _data = new List<ProductCategory>();
+        private static ProductCategoryDaoMemory _instance;
 
         private ProductCategoryDaoMemory()
         {
@@ -14,33 +14,33 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public static ProductCategoryDaoMemory GetInstance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new ProductCategoryDaoMemory();
+                _instance = new ProductCategoryDaoMemory();
             }
 
-            return instance;
+            return _instance;
         }
 
         public void Add(ProductCategory item)
         {
-            item.Id = data.Count + 1;
-            data.Add(item);
+            item.Id = _data.Count + 1;
+            _data.Add(item);
         }
 
         public void Remove(int id)
         {
-            data.Remove(this.Get(id));
+            _data.Remove(this.Get(id));
         }
 
         public ProductCategory Get(int id)
         {
-            return data.Find(x => x.Id == id);
+            return _data.Find(x => x.Id == id);
         }
 
         public IEnumerable<ProductCategory> GetAll()
         {
-            return data;
+            return _data;
         }
     }
 }

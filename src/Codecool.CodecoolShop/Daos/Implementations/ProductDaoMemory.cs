@@ -8,8 +8,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductDaoMemory : IProductDao
     {
-        private List<Product> data = new List<Product>();
-        private static ProductDaoMemory instance;
+        private List<Product> _data = new List<Product>();
+        private static ProductDaoMemory _instance;
 
         private ProductDaoMemory()
         {
@@ -17,43 +17,43 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public static ProductDaoMemory GetInstance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new ProductDaoMemory();
+                _instance = new ProductDaoMemory();
             }
 
-            return instance;
+            return _instance;
         }
 
         public void Add(Product item)
         {
-            item.Id = data.Count + 1;
-            data.Add(item);
+            item.Id = _data.Count + 1;
+            _data.Add(item);
         }
 
         public void Remove(int id)
         {
-            data.Remove(this.Get(id));
+            _data.Remove(this.Get(id));
         }
 
         public Product Get(int id)
         {
-            return data.Find(x => x.Id == id);
+            return _data.Find(x => x.Id == id);
         }
 
         public IEnumerable<Product> GetAll()
         {
-            return data;
+            return _data;
         }
 
         public IEnumerable<Product> GetBy(Supplier supplier)
         {
-            return data.Where(x => x.Supplier.Id == supplier.Id);
+            return _data.Where(x => x.Supplier.Id == supplier.Id);
         }
 
         public IEnumerable<Product> GetBy(ProductCategory productCategory)
         {
-            return data.Where(x => x.ProductCategory.Id == productCategory.Id);
+            return _data.Where(x => x.ProductCategory.Id == productCategory.Id);
         }
     }
 }

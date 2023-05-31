@@ -8,15 +8,15 @@ namespace Codecool.CodecoolShop.Services
     {
         //private readonly IProductDao productDao;
         //private readonly IProductCategoryDao productCategoryDao;
-        private readonly IProductDao productDaoDB;
-        private readonly IProductCategoryDao productCategoryDaoDB;
-        private readonly ISupplierDao supplierDaoDB;
+        private readonly IProductDao _productDaoDb;
+        private readonly IProductCategoryDao _productCategoryDaoDb;
+        private readonly ISupplierDao _supplierDaoDb;
 
-        public ProductService(IProductDao productDaoDB, IProductCategoryDao productCategoryDaoDB, ISupplierDao supplierDaoDB)
+        public ProductService(IProductDao productDaoDb, IProductCategoryDao productCategoryDaoDb, ISupplierDao supplierDaoDb)
         {
-            this.productDaoDB = productDaoDB;
-            this.productCategoryDaoDB = productCategoryDaoDB;
-            this.supplierDaoDB = supplierDaoDB;
+            this._productDaoDb = productDaoDb;
+            this._productCategoryDaoDb = productCategoryDaoDb;
+            this._supplierDaoDb = supplierDaoDb;
         }
         //public ProductService(IProductDao productDao, IProductCategoryDao productCategoryDao)
         //{
@@ -24,9 +24,9 @@ namespace Codecool.CodecoolShop.Services
         //    this.productCategoryDao = productCategoryDao;
         //}
 
-        public ProductCategory GetProductCategory(int categoryId) => this.productCategoryDaoDB.Get(categoryId);
+        public ProductCategory GetProductCategory(int categoryId) => this._productCategoryDaoDb.Get(categoryId);
 
-        public IEnumerable<ProductCategory> GetProductCategories() => this.productCategoryDaoDB.GetAll();
+        public IEnumerable<ProductCategory> GetProductCategories() => this._productCategoryDaoDb.GetAll();
 
         //public ProductCategory GetProductCategory(int categoryId)
         //{
@@ -41,21 +41,21 @@ namespace Codecool.CodecoolShop.Services
 
         public IEnumerable<Product> GetProductsForCategory(int categoryId)
         {
-            ProductCategory category = this.productCategoryDaoDB.Get(categoryId);
-            return this.productDaoDB.GetBy(category);
+            var category = this._productCategoryDaoDb.Get(categoryId);
+            return this._productDaoDb.GetBy(category);
         }
 
-        public IEnumerable<Product> GetAllProducts() => this.productDaoDB.GetAll();
+        public IEnumerable<Product> GetAllProducts() => this._productDaoDb.GetAll();
 
-        public Supplier GetProductSupplier(int supplierId) => this.supplierDaoDB.Get(supplierId);
+        public Supplier GetProductSupplier(int supplierId) => this._supplierDaoDb.Get(supplierId);
 
         public IEnumerable<Product> GetProductsForSupplier(int supplierId)
         {
-            Supplier supplier = this.supplierDaoDB.Get(supplierId);
-            return this.productDaoDB.GetBy(supplier);
+            var supplier = this._supplierDaoDb.Get(supplierId);
+            return this._productDaoDb.GetBy(supplier);
         }
 
-        public IEnumerable<Supplier> GetSuppliers() => this.supplierDaoDB.GetAll();
+        public IEnumerable<Supplier> GetSuppliers() => this._supplierDaoDb.GetAll();
 
     }
 }
