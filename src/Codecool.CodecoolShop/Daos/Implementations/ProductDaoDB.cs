@@ -71,7 +71,53 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public Product Get(int id)
         {
-            return data.Find(x => x.Id == id);
+            try
+            {
+                using var connection = new SqlConnection(_connectionString);
+                connection.Open();
+                using var command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+
+                string selectProductSql =
+                    @"
+                    SELECT name, description, currency, default_price, product_category, supplier
+                    FROM product
+                    WHERE id=@Id;
+                    ";
+
+                command.CommandText = selectProductSql;
+
+                using var reader = command.ExecuteReader();
+                command.Parameters.AddWithValue("@Id", id);
+                Product item = new Product();
+
+                if (reader.Read())
+                {
+                    string name = (string)reader["name"];
+                    string description = (string)reader["description"];
+                    string currency = (string)reader["currency"];
+                    decimal defaultPrice = (decimal)reader["default_price"];
+                    string productCategory = (string)reader["product_category"];
+                    string productSupplier = (string)reader["supplier"];
+
+                    ProductCategory category = new ProductCategory() { Name = productCategory };
+                    Supplier supplier = new Supplier() { Name = productSupplier };
+
+                    item.Id = id;
+                    item.Name = name;
+                    item.Description = description;
+                    item.Currency = currency;
+                    item.DefaultPrice = defaultPrice;
+                    item.ProductCategory = category;
+                    item.Supplier = supplier;
+                }
+
+                return item;
+            }
+            catch (SqlException exception)
+            {
+                throw exception;
+            }
         }
 
         public IEnumerable<Product> GetAll()
