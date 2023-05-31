@@ -27,7 +27,7 @@
                         </li>
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Cart" asp-route-id="@ViewData["OrderId"]"><i class="fa fa-shopping-cart" style="font-size:20px"></i><sup>@ViewData["ItemsInCart"]</sup></a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Cart" asp-route-id="@ViewData["OrderId"]"><i class="fa fa-shopping-cart" style="font-size:20px"></i><sup>@ViewBag.total</sup></a>
                         </li>
                     </ul>
                 </div>
