@@ -11,6 +11,7 @@ using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
 using System.Configuration;
 using System.Dynamic;
+using Codecool.CodecoolShop.Helpers;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -32,7 +33,7 @@ namespace Codecool.CodecoolShop.Controllers
                 SupplierDaoDB.GetInstance());
             CartService = new CartService(OrderDaoDB.GetInstance()
                 );
-            Order = new Order();
+            //Order = new Order();
         }
 
         public IActionResult Index()
@@ -42,6 +43,13 @@ namespace Codecool.CodecoolShop.Controllers
             //myModel.Products = ProductService.GetProductsForCategory(1);
             myModel.Categories = ProductService.GetProductCategories();
             myModel.Suppliers = ProductService.GetSuppliers();
+            var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            if (order != null)
+            {
+                ViewBag.cart = order.Items;
+                ViewBag.total = order.Items.Sum(lineItem => lineItem.Quantity);
+                //ViewBag.total = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity); 
+            }            
             return View(myModel);
         }
 
@@ -63,28 +71,7 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Index", myModel);
         }
 
-        public IActionResult AddedToCart(string name, decimal price) //id produktu, z DB zczytac produkt, z tego nazwe i cene
-        {
-            this.Order.AddLineItem(name, price);
-            dynamic myModel = new ExpandoObject();
-            myModel.Products = ProductService.GetAllProducts();
-            myModel.Categories = ProductService.GetProductCategories();
-            myModel.Suppliers = ProductService.GetSuppliers();
-            ViewData["ItemsInCart"] = this.Order.Items.Count;
-            ViewData["OrderId"] = this.Order.Id;
-            ViewData["Name"] = name;
-            ViewData["Price"] = price;
-            return View("Index", myModel);
-        }
-
-        public ActionResult Cart(int orderId)
-        {
-            dynamic order = new ExpandoObject();
-            order.Id = orderId;
-            order.Details = this.Order.Items;
-            return View(order);
-        }
-
+        
         public IActionResult Privacy()
         {
             return View();
