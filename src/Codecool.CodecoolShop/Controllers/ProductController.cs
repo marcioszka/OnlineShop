@@ -47,8 +47,7 @@ namespace Codecool.CodecoolShop.Controllers
             if (order != null)
             {
                 ViewBag.cart = order.Items;
-                ViewBag.total = order.Items.Sum(lineItem => lineItem.Quantity);
-                //ViewBag.total = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity); 
+                ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
             }            
             return View(myModel);
         }

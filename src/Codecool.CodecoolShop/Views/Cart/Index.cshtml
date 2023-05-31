@@ -1,0 +1,63 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container">
+    <h4>VIEW PRODUCTS BY</h4>
+    <div class="filter-headers">
+        <div class="col-lg-6" style="position: relative; display: flex;">
+            <h5 class="category-title text-left">CATEGORY</h5>
+        </div>
+        <div class="col-lg-6" style="position: relative; display: flex;"><h5 class="supplier-title text-left">SUPPLIER</h5></div>
+    </div>
+    <div class="filter" style="position: relative; display: flex; margin: auto">
+        <div class="col-lg-6">
+            <div class="col-lg-auto"><a asp-action="Index" asp-controller="Product">ALL</a></div>
+            @foreach (ProductCategory category in Model.Categories)
+            {
+                <div class="col-lg-auto">
+                    <a asp-action="Category" asp-controller="Product" asp-route-id="@category.Id">@category.Name</a>
+                </div>
+            }
+        </div>
+        <div class="col-lg-6">
+            @foreach (var supplier in Model.Suppliers)
+            {
+                <div class="col-lg-auto">
+                    <a asp-action="Supplier" asp-controller="Product" asp-route-id="@supplier.Id">@supplier.Name</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@{
+    var num = 1;
+}
+
+<div class="container">
+    @foreach (var element in Model.Products)
+    {
+        <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
+            <div class="card">
+                <img src="img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
+
+                <div class="card-body">
+                    <h5 class="card-title text-center">
+                        Product @num
+                        @{
+                            num++;
+                        }
+                    </h5>
+                    <h5 class="card-title">@element.Name</h5>
+                    <p class="card-text">@element.Description</p>
+                    @{
+                        <p class="card-text">Category: @element.ProductCategory.Name</p>
+                    }
+                    <p class="card-text">Supplier: @element.Supplier.Name</p>
+                    <p class="card-text text-center"><strong>Price: @element.DefaultPrice @element.Currency</strong></p>
+                    <a asp-action="AddedToCart" asp-controller="Product" asp-route-id="@element.Id" asp-route-name="@element.Name" asp-route-price="@element.DefaultPrice" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

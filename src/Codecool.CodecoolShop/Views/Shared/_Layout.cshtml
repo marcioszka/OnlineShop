@@ -27,7 +27,12 @@
                         </li>
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Cart" asp-route-id="@ViewData["OrderId"]"><i class="fa fa-shopping-cart" style="font-size:20px"></i><sup>@ViewBag.total</sup></a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Cart" asp-route-id="@ViewData["OrderId"]">
+                                <i class="fa fa-shopping-cart" style="font-size:20px"></i>@if (ViewBag.count == null)
+                                {
+                                    <h4>@ViewBag.price</h4>
+                                } else {<sup>@ViewBag.count</sup>}
+                            </a>
                         </li>
                     </ul>
                 </div>

@@ -27,7 +27,16 @@
                         </li>
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Cart" asp-route-id="@ViewData["OrderId"]"><i class="fa fa-shopping-cart" style="font-size:20px"></i><sup>@ViewData["ItemsInCart"]</sup></a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Price" asp-route-id="@ViewData["OrderId"]">
+                                <i class="fa fa-shopping-cart" style="font-size:20px"></i>@if (((IDictionary<String, object>)Model).ContainsKey("Price"))
+                                {
+                                            <sup>@Model.Price</sup>
+                                }
+                                else
+                                {
+                                    <sup>@ViewBag.count</sup>
+                                }
+                            </a>
                         </li>
                     </ul>
                 </div>

@@ -23,12 +23,55 @@ namespace Codecool.CodecoolShop.Controllers
                 );
         }
 
-        //public IActionResult Index()
+       
+        public IActionResult Cart()
+        {
+            dynamic cart = new ExpandoObject();
+            if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null)
+            {
+                cart.Message = "There is no item in your shopping cart.";
+            }
+            else
+            {
+                Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+                cart.Id = order.Id;
+                cart.Items = order.Items;
+                cart.Sum = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity);
+                ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
+            }
+            return View(cart);
+        }
+
+        public IActionResult Price()
+        {
+            dynamic cart = new ExpandoObject();
+            if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null)
+            {
+                cart.Message = "There is no item in your shopping cart.";
+            }
+            else
+            {
+                Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+                cart.Id = order.Id;
+                cart.Items = order.Items;
+                cart.Sum = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity);
+                cart.Price = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity);
+            }
+            return View("Cart", cart); //TODO: ~/cart/price : me no like it
+        }
+
+        //public IActionResult AddedToCart(int id, string name, decimal price) //id produktu, z DB zczytac produkt, z tego nazwe i cene
         //{
-        //    var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
-        //    ViewBag.cart = order.Items;
-        //    ViewBag.total = order.Items.Sum(lineItem => lineItem.Price*lineItem.Quantity);
-        //    return View();
+        //    this.Order.AddLineItem(name, price);
+        //    dynamic myModel = new ExpandoObject();
+        //    myModel.Products = ProductService.GetAllProducts();
+        //    myModel.Categories = ProductService.GetProductCategories();
+        //    myModel.Suppliers = ProductService.GetSuppliers();
+        //    ViewData["ItemsInCart"] = this.Order.Items.Count;
+        //    ViewData["OrderId"] = this.Order.Id;
+        //    ViewData["Name"] = name;
+        //    ViewData["Price"] = price;
+        //    return View("Index", myModel);
         //}
 
         public IActionResult Add(int id, string name, decimal price)
