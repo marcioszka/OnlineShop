@@ -52,6 +52,7 @@ namespace Codecool.CodecoolShop.Controllers
             }
             SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             return RedirectToAction("Cart");
+            //return Redirect(HttpContext.Request.Headers["Referer"]);
         }
 
         public IActionResult Price()
@@ -64,7 +65,6 @@ namespace Codecool.CodecoolShop.Controllers
             else
             {
                 Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
-                //order.Items.ForEach(lineItem => { lineItem.Price = lineItem.Price*0.1 });
                 cart.Id = order.Id;
                 cart.Items = order.Items;
                 cart.Sum = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity);
@@ -73,21 +73,7 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Cart", cart); //TODO: ~/cart/price : me no like it
         }
 
-        //public IActionResult AddedToCart(int id, string name, decimal price) //id produktu, z DB zczytac produkt, z tego nazwe i cene
-        //{
-        //    this.Order.AddLineItem(name, price);
-        //    dynamic myModel = new ExpandoObject();
-        //    myModel.Products = ProductService.GetAllProducts();
-        //    myModel.Categories = ProductService.GetProductCategories();
-        //    myModel.Suppliers = ProductService.GetSuppliers();
-        //    ViewData["ItemsInCart"] = this.Order.Items.Count;
-        //    ViewData["OrderId"] = this.Order.Id;
-        //    ViewData["Name"] = name;
-        //    ViewData["Price"] = price;
-        //    return View("Index", myModel);
-        //}
-
-        public IActionResult Add(int id, string name, decimal price)
+        public IActionResult Add(int id)
         {
             LineItem lineItem = CartService.GetProductDetails(id);
             //LineItem item = new LineItem(id, name, price);
@@ -105,7 +91,7 @@ namespace Codecool.CodecoolShop.Controllers
                 else order.AddLineItem(lineItem); //item) ;
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             }
-            return RedirectToAction("Index", "Product");
+            return Redirect(HttpContext.Request.Headers["Referer"]);
         }
 
         private int isInCart(int id)

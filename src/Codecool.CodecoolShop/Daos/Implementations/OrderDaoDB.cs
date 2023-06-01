@@ -83,14 +83,15 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 {
                     string insertOrderDetailsSql =
                     @"
-                    INSERT INTO line_item (id, name, price, quantity, order_id)
-                    VALUES (@Id, @Name, @Price, @Quantity, @Order_id);
+                    INSERT INTO line_item (id, name, price, currency, quantity, order_id)
+                    VALUES (@Id, @Name, @Price, @Currency, @Quantity, @Order_id);
                     ";
 
                     command.CommandText = insertOrderDetailsSql;
                     command.Parameters.AddWithValue("@Id", item.Id);
                     command.Parameters.AddWithValue("@Name", item.Name);
                     command.Parameters.AddWithValue("@Price", item.Price);
+                    command.Parameters.AddWithValue("@Currency", item.Currency);
                     command.Parameters.AddWithValue("@Quantity", item.Quantity);
                     command.Parameters.AddWithValue("@Order_id", order.Id);
                 }
@@ -112,7 +113,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectOrderDetailsSql =
                     @"
-                    SELECT id, name, price, quantity
+                    SELECT id, name, price, currency, quantity
                     FROM line_item
                     WHERE order_id=@Order_id;
                     ";
@@ -128,9 +129,10 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     int id = (int)reader["id"];
                     string name = (string)reader["name"];
                     decimal price = (decimal)reader["price"];
+                    string currency = (string)reader["currency"];
                     int quantity = (int)reader["quantity"];
 
-                    LineItem item = new LineItem(id) { Name = name, Price = price, Quantity = quantity };
+                    LineItem item = new LineItem(id) { Name = name, Price = price, Currency = currency, Quantity = quantity };
                    
                     data.Add(item);
                 }
@@ -154,7 +156,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductDetailsSql =
                     @"
-                    SELECT name, default_price
+                    SELECT name, default_price, currency
                     FROM product
                     WHERE id=@Id;
                     ";
@@ -169,9 +171,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 {
                     string name = (string)reader["name"];
                     decimal defaultPrice = (decimal)reader["default_price"];
+                    string currency = (string)reader["currency"];
 
                     item.Name = name;
                     item.Price = defaultPrice;
+                    item.Currency = currency;
                     item.Quantity = 1;
                 }
                 return item;

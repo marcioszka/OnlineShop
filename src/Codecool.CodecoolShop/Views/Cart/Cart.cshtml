@@ -20,26 +20,28 @@ else
         <th>Quantity</th>
         <th>Price</th>
     </tr>
-        @{
-            int counter = 1; 
-        }
+            @{
+                int counter = 1;
+                string currency = "";
+            }
         @foreach (var lineItem in Model.Items)
     {
         <tr>
             <td>@counter.</td>
             <td>@lineItem.Name</td>
-            <td>@lineItem.Price</td>
+            <td>@lineItem.Price @lineItem.Currency</td>
                     <td><input type="text" name="quantity" value="@lineItem.Quantity" asp-action="Quantity" asp-controller="Cart" asp-route-id="@lineItem.Id"><input type="submit" value="Set quantity" /></td>
                 @{
                     decimal totalprice = lineItem.Quantity * lineItem.Price;
                     counter++;
+                    currency = @lineItem.Currency;
                 }
-            <td>@totalprice</td>
+                    <td>@totalprice @lineItem.Currency</td>
         </tr>
     }   
     <tr>
         <td colspan="4"><strong>Total price: </strong></td>
-        <td>@Model.Sum</td>
+            <td>@Model.Sum @currency</td>
     </tr>
 </table>
 </form>
