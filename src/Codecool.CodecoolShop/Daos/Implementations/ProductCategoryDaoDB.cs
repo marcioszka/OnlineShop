@@ -7,7 +7,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductCategoryDaoDb : IProductCategoryDao
     {
-    private readonly string _connectionString = "Server=jakub-laptop//MSSQLSERVER2019 Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
+    private readonly string _connectionString = "Server=localhost;Database=ShopCodecool;User Id=sa;Password=@Sdf1234;TrustServerCertificate=True;";
     private static ProductCategoryDaoDb _instance;
 
 
