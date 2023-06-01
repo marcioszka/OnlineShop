@@ -42,6 +42,18 @@ namespace Codecool.CodecoolShop.Controllers
             return View(cart);
         }
 
+        public IActionResult Quantity(int id)
+        {
+            //dynamic cart = new ExpandoObject();
+            Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            for (int i = 0; i < order.Items.Count; i++)
+            {
+                if (order.Items[i].Id.Equals(id)) order.Items[i].Quantity++;
+            }
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
+            return RedirectToAction("Cart");
+        }
+
         public IActionResult Price()
         {
             dynamic cart = new ExpandoObject();
@@ -77,12 +89,12 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Add(int id, string name, decimal price)
         {
-            //LineItem lineItem = CartService.GetProductDetails(id);
-            LineItem item = new LineItem(id, name, price);
+            LineItem lineItem = CartService.GetProductDetails(id);
+            //LineItem item = new LineItem(id, name, price);
             if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null) 
             {
                 Order order = new Order();
-                order.AddLineItem(item);
+                order.AddLineItem(lineItem);//item);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             }
             else
@@ -90,7 +102,7 @@ namespace Codecool.CodecoolShop.Controllers
                 Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
                 int indexInCart = isInCart(id);
                 if (indexInCart != -1) order.Items[indexInCart].Quantity++;
-                else order.AddLineItem(item);
+                else order.AddLineItem(lineItem); //item) ;
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             }
             return RedirectToAction("Index", "Product");
