@@ -11,7 +11,7 @@
 else
 {
 <h4>Order no. @Model.Id</h4> 
-
+<form name="ShoppingCart">
 <table>
     <tr>
         <th>No.</th>
@@ -26,10 +26,10 @@ else
         @foreach (var lineItem in Model.Items)
     {
         <tr>
-            <td>@counter</td>
+            <td>@counter/@lineItem.Id</td>
             <td>@lineItem.Name</td>
-                <td>@lineItem.Price</td>
-                <td>@lineItem.Quantity</td>
+            <td>@lineItem.Price</td>
+                    <td><input type="text" name="quantity" value="@lineItem.Quantity" asp-action="Quantity" asp-controller="Cart" asp-route-id="@lineItem.Id"><input type="submit" value="Set quantity" /></td>
                 @{
                     decimal totalprice = lineItem.Quantity * lineItem.Price;
                     counter++;
@@ -42,4 +42,5 @@ else
         <td>@Model.Sum</td>
     </tr>
 </table>
+</form>
 }
