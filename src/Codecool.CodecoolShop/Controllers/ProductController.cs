@@ -55,6 +55,12 @@ namespace Codecool.CodecoolShop.Controllers
             myModel.Products = ProductService.GetProductsForCategory(id);
             myModel.Categories = ProductService.GetProductCategories();
             myModel.Suppliers = ProductService.GetSuppliers();
+            var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            if (order != null)
+            {
+                ViewBag.cart = order.Items;
+                ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
+            }
             return View("Index", myModel);
         }
 
@@ -64,6 +70,12 @@ namespace Codecool.CodecoolShop.Controllers
             myModel.Products = ProductService.GetProductsForSupplier(id);
             myModel.Categories = ProductService.GetProductCategories();
             myModel.Suppliers = ProductService.GetSuppliers();
+            var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            if (order != null)
+            {
+                ViewBag.cart = order.Items;
+                ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
+            }
             return View("Index", myModel);
         }
 
