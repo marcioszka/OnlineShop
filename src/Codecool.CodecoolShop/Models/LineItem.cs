@@ -10,17 +10,17 @@ namespace Codecool.CodecoolShop.Models
         public int Quantity { get; set; }
         public decimal Price { get; set; }
 
-        //public LineItem(int id)
-        //{
-        //    Id = id;
-        //}
-
-        public LineItem(int id, string name, decimal price, int quantity = 1)
+        public LineItem(int id)
         {
             Id = id;
-            Name = name;
-            Price = price;
-            Quantity = quantity;
         }
+
+        //public LineItem(int id, string name, decimal price, int quantity = 1)
+        //{
+        //    Id = id;
+        //    Name = name;
+        //    Price = price;
+        //    Quantity = quantity;
+        //}
     }
 }
