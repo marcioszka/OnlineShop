@@ -11,7 +11,8 @@
 else
 {
 <h4>Order no. @Model.Id</h4> 
-<form name="ShoppingCart">
+    <form name="ShoppingCart">
+
 <table>
     <tr>
         <th>No.</th>
@@ -30,7 +31,7 @@ else
             <td>@counter.</td>
             <td>@lineItem.Name</td>
             <td>@lineItem.Price @lineItem.Currency</td>
-                    <td><input type="text" name="quantity" value="@lineItem.Quantity" asp-action="Quantity" asp-controller="Cart" asp-route-id="@lineItem.Id"><input type="submit" value="Set quantity" /></td>
+                    <td><input type="text" name="quantity" value="@lineItem.Quantity"></td>
                 @{
                     decimal totalprice = lineItem.Quantity * lineItem.Price;
                     counter++;
@@ -44,5 +45,6 @@ else
             <td>@Model.Sum @currency</td>
     </tr>
 </table>
+    }
 </form>
 }
