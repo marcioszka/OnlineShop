@@ -132,7 +132,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT name, description, currency, default_price, product_category, supplier
+                    SELECT id, name, description, currency, default_price, product_category, supplier
                     FROM product;
                     ";
 
@@ -143,6 +143,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 while (reader.Read())
                 {
+                    int id = (int)reader["id"];
                     string name = (string)reader["name"];
                     string description = (string)reader["description"];
                     string currency = (string)reader["currency"];
@@ -153,7 +154,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     ProductCategory category = new ProductCategory() { Name=productCategory};
                     Supplier supplier = new Supplier() { Name = productSupplier };
 
-                    var product = new Product() { Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
+                    var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
                     data.Add(product);
                 }
 

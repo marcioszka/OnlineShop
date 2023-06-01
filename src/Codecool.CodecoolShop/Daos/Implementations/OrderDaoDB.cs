@@ -130,7 +130,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     decimal price = (decimal)reader["price"];
                     int quantity = (int)reader["quantity"];
 
-                    LineItem item = new LineItem(id, name, price, quantity);
+                    LineItem item = new LineItem(id) { Name = name, Price = price, Quantity = quantity };
                    
                     data.Add(item);
                 }
@@ -163,7 +163,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@Id", productId);
 
                 using var reader = command.ExecuteReader();
-                LineItem item = new LineItem(productId, string.Empty, 0.0m);
+                LineItem item = new LineItem(productId);
 
                 if (reader.Read())
                 {
