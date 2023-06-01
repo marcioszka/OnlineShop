@@ -4,7 +4,9 @@ using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 
@@ -42,17 +44,16 @@ namespace Codecool.CodecoolShop.Controllers
             return View(cart);
         }
 
-        public IActionResult Quantity(int id)
+        [HttpPost]
+        public IActionResult Quantity(int id, int quantity)
         {
-            //dynamic cart = new ExpandoObject();
+            int productQuantity = Convert.ToInt32(quantity);
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
-            for (int i = 0; i < order.Items.Count; i++)
-            {
-                if (order.Items[i].Id.Equals(id)) order.Items[i].Quantity++;
-            }
+            int indexInCart = isInCart(id);
+            if (quantity == 0) order.Items.RemoveAt(indexInCart);
+            else order.Items[indexInCart].Quantity = productQuantity;
             SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
-            return RedirectToAction("Cart");
-            //return Redirect(HttpContext.Request.Headers["Referer"]);
+            return Redirect(HttpContext.Request.Headers["Referer"]);
         }
 
         public IActionResult Price()
