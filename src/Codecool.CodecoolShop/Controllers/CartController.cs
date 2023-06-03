@@ -49,7 +49,7 @@ namespace Codecool.CodecoolShop.Controllers
         {
             int productQuantity = Convert.ToInt32(quantity);
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
-            int indexInCart = isInCart(id);
+            int indexInCart = IndexInCart(id);
             if (quantity == 0) order.Items.RemoveAt(indexInCart);
             else order.Items[indexInCart].Quantity = productQuantity;
             SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
@@ -87,7 +87,7 @@ namespace Codecool.CodecoolShop.Controllers
             else
             {
                 Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
-                int indexInCart = isInCart(id);
+                int indexInCart = IndexInCart(id);
                 if (indexInCart != -1) order.Items[indexInCart].Quantity++;
                 else order.AddLineItem(lineItem); //item) ;
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
@@ -95,7 +95,7 @@ namespace Codecool.CodecoolShop.Controllers
             return Redirect(HttpContext.Request.Headers["Referer"]);
         }
 
-        private int isInCart(int id)
+        private int IndexInCart(int id)
         {
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             for (int i = 0; i< order.Items.Count; i++)
