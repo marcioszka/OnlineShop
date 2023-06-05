@@ -1,34 +1,34 @@
 @model dynamic
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";    
 }
+
 <div class="container">
     <h4>VIEW PRODUCTS BY</h4>
     <div class="filter-headers">
         <div class="col-lg-6" style="position: relative; display: flex;">
-            <h5 class="category-title text-left">CATEGORY</h5>
-        </div>
+            <h5 class="category-title text-left">CATEGORY</h5></div>
         <div class="col-lg-6" style="position: relative; display: flex;"><h5 class="supplier-title text-left">SUPPLIER</h5></div>
     </div>
-    <div class="filter" style="position: relative; display: flex; margin: auto">
-        <div class="col-lg-6">
-            <div class="col-lg-auto"><a asp-action="Index" asp-controller="Product">ALL</a></div>
-            @foreach (ProductCategory category in Model.Categories)
-            {
+        <div class="filter" style="position: relative; display: flex; margin: auto">
+            <div class="col-lg-6">
+                <div class="col-lg-auto"><a asp-action="Index" asp-controller="Product">ALL</a></div>
+                @foreach (ProductCategory category in Model.Categories)
+                {
                 <div class="col-lg-auto">
-                    <a asp-action="Category" asp-controller="Product" asp-route-id="@category.Id">@category.Name</a>
-                </div>
-            }
-        </div>
-        <div class="col-lg-6">
+                        <a asp-action="Category" asp-controller="Product" asp-route-id="@category.Id">@category.Name</a>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-6">
             @foreach (var supplier in Model.Suppliers)
             {
                 <div class="col-lg-auto">
                     <a asp-action="Supplier" asp-controller="Product" asp-route-id="@supplier.Id">@supplier.Name</a>
                 </div>
             }
+            </div>
         </div>
-    </div>
 </div>
 @{
     var num = 1;
@@ -44,9 +44,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">
                         Product @num
-                        @{
-                            num++;
-                        }
+                        @{num++;}
                     </h5>
                     <h5 class="card-title">@element.Name</h5>
                     <p class="card-text">@element.Description</p>
@@ -55,7 +53,7 @@
                     }
                     <p class="card-text">Supplier: @element.Supplier.Name</p>
                     <p class="card-text text-center"><strong>Price: @element.DefaultPrice @element.Currency</strong></p>
-                    <a asp-action="Add" asp-controller="Cart" asp-route-id="@element.Id" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                    <a href="" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
                 </div>
             </div>
         </div>
