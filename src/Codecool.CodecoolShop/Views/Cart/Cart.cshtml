@@ -1,12 +1,9 @@
-﻿@model dynamic
+﻿@model Codecool.CodecoolShop.Models.Order
 
-@{
-    Layout = "_Cart";
-}
-
-@if (((IDictionary<String, object>)Model).ContainsKey("Message"))
+@if (Model == null)
 {
-    <h4>@Model.Message</h4>
+    <h4>There is no item in your shopping cart.</h4>
+    <!-- <h4>Model.Message</h4>-->
 }
 else
 {
@@ -29,7 +26,7 @@ else
             <tr>
                 <td>@counter.</td>
                 <td>@lineItem.Name</td>
-                <td>@lineItem.Price @lineItem.Currency</td>
+                <td>@lineItem.DefaultPrice @lineItem.Currency</td>
             
                 <td>
                     <input type="hidden" name="id" value="@lineItem.Id">
@@ -42,7 +39,7 @@ else
                                        <!-- <td>@Html.TextBox("Quantity", quantity, new { 
                             @Id = @lineItem.Id, @Value = @lineItem.Quantity })</td> -->
                     @{
-                        decimal totalprice = lineItem.Quantity * lineItem.Price;
+                        decimal totalprice = lineItem.Quantity * lineItem.DefaultPrice;
                         counter++;
                         currency = @lineItem.Currency;
                     }
@@ -51,7 +48,7 @@ else
         }   
         <tr>
             <td colspan="4"><strong>Total price: </strong></td>
-                <td>@Model.Sum @currency</td>
+                <td>@Model.CountSum() @currency</td>
         </tr>
     </table>
 </form>

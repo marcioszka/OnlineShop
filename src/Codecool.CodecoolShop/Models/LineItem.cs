@@ -2,18 +2,16 @@
 
 namespace Codecool.CodecoolShop.Models
 {
-    public class LineItem
+    public class LineItem : Product
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
-
-        public string Currency { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public LineItem(int id)
         {
             Id = id;
         }
+
+        public decimal CountPrice() => this.Quantity * this.DefaultPrice;
     }
 }

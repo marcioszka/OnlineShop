@@ -14,5 +14,11 @@ namespace Codecool.CodecoolShop.Models
             ProductCategory = productCategory;
             ProductCategory.Products.Add(this);
         }
+
+        public void SetSupplier(Supplier supplier)
+        {
+            Supplier = supplier;
+            Supplier.Products.Add(this);
+        }
     }
 }

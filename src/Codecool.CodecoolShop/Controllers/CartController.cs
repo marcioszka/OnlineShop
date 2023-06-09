@@ -28,20 +28,14 @@ namespace Codecool.CodecoolShop.Controllers
        
         public IActionResult Cart()
         {
-            dynamic cart = new ExpandoObject();
-            if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null)
+            Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") != null)
             {
-                cart.Message = "There is no item in your shopping cart.";
+                order.ItemsCount = order.CountItems();
+                ViewData["OrderId"] = order.Id;
+                ViewBag.count = order.CountItems();
             }
-            else
-            {
-                Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
-                cart.Id = order.Id;
-                cart.Items = order.Items;
-                cart.Sum = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity);
-                ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
-            }
-            return View(cart);
+            return View(order);
         }
 
         [HttpPost]
@@ -50,38 +44,32 @@ namespace Codecool.CodecoolShop.Controllers
             int productQuantity = Convert.ToInt32(quantity);
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             int indexInCart = IndexInCart(id);
-            if (quantity == 0) order.Items.RemoveAt(indexInCart);
-            else order.Items[indexInCart].Quantity = productQuantity;
+            if (quantity == 0) 
+            { 
+                order.Items.RemoveAt(indexInCart); }
+            else 
+            { 
+                order.Items[indexInCart].Quantity = productQuantity; 
+            }
             SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             return Redirect(HttpContext.Request.Headers["Referer"]);
         }
 
-        public IActionResult Price()
+        public IActionResult Price()    //TODO: fix
         {
-            dynamic cart = new ExpandoObject();
-            if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null)
-            {
-                cart.Message = "There is no item in your shopping cart.";
-            }
-            else
-            {
-                Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
-                cart.Id = order.Id;
-                cart.Items = order.Items;
-                cart.Sum = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity);
-                cart.Price = order.Items.Sum(lineItem => lineItem.Price * lineItem.Quantity);
-            }
-            return View("Cart", cart); //TODO: ~/cart/price : me no like it
+            Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            order.Sum = order.CountSum();
+            ViewBag.Price = order.Sum;
+            return View("Cart", order);
         }
 
         public IActionResult Add(int id)
         {
             LineItem lineItem = CartService.GetProductDetails(id);
-            //LineItem item = new LineItem(id, name, price);
             if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null) 
             {
                 Order order = new Order();
-                order.AddLineItem(lineItem);//item);
+                order.AddLineItem(lineItem);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             }
             else
@@ -89,7 +77,7 @@ namespace Codecool.CodecoolShop.Controllers
                 Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
                 int indexInCart = IndexInCart(id);
                 if (indexInCart != -1) order.Items[indexInCart].Quantity++;
-                else order.AddLineItem(lineItem); //item) ;
+                else order.AddLineItem(lineItem);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "order", order);
             }
             return Redirect(HttpContext.Request.Headers["Referer"]);

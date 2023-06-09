@@ -41,7 +41,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string insertProductSql =
                     @"
-                    INSERT INTO product (name, description, currency, default_price, product_category, supplier)
+                    INSERT INTO product (name, description, currency, default_price, categoryID, supplierID)
                     VALUES (@Name, @Description, @Currency, @DefaultPrice, @ProductCategory, @Supplier);
 
                     SELECT SCOPE_IDENTITY();
@@ -52,8 +52,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@Description", item.Description);
                 command.Parameters.AddWithValue("@Currency", item.Currency);
                 command.Parameters.AddWithValue("@DefaultPrice", item.DefaultPrice);
-                command.Parameters.AddWithValue("@ProductCategory", item.ProductCategory);
-                command.Parameters.AddWithValue("@Supplier", item.Supplier);
+                command.Parameters.AddWithValue("@ProductCategory", item.ProductCategory.Id);
+                command.Parameters.AddWithValue("@Supplier", item.Supplier.Id);
 
                 int itemId = Convert.ToInt32(command.ExecuteScalar());
                 item.Id = itemId;
@@ -80,9 +80,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductSql =
                     @"
-                    SELECT name, description, currency, default_price, product_category, supplier
+                    SELECT product.name as name, product.description as description, product.currency as currency, product.default_price as default_price, category.name as category, supplier.name as supplier
                     FROM product
-                    WHERE id=@Id;
+                    JOIN category ON product.categoryID = category.id
+                    JOIN supplier ON product.supplierID = supplier.id
+                    WHERE product.id=@Id;
                     ";
 
                 command.CommandText = selectProductSql;
@@ -97,11 +99,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string description = (string)reader["description"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
-                    string productCategory = (string)reader["product_category"];
-                    string productSupplier = (string)reader["supplier"];
+                    string categoryName = (string)reader["category"];
+                    string supplierName = (string)reader["supplier"];
 
-                    ProductCategory category = new ProductCategory() { Name = productCategory };
-                    Supplier supplier = new Supplier() { Name = productSupplier };
+                    ProductCategory category = new ProductCategory() { Name = categoryName };
+                    Supplier supplier = new Supplier() { Name = supplierName };
 
                     item.Id = id;
                     item.Name = name;
@@ -109,7 +111,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     item.Currency = currency;
                     item.DefaultPrice = defaultPrice;
                     item.ProductCategory = category;
-                    item.Supplier = supplier;
+                    item.Supplier = supplier;                   
                 }
 
                 return item;
@@ -132,8 +134,10 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT id, name, description, currency, default_price, product_category, supplier
-                    FROM product;
+                    SELECT product.id as id, product.name as name, product.description as description, product.currency as currency, product.default_price as default_price, category.name as category, supplier.name as supplier
+                    FROM product
+                    JOIN category ON product.categoryID = category.id
+                    JOIN supplier ON product.supplierID = supplier.id;
                     ";
 
                 command.CommandText = selectProductsSql;
@@ -148,11 +152,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string description = (string)reader["description"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
-                    string productCategory = (string)reader["product_category"];
-                    string productSupplier = (string)reader["supplier"];
+                    string categoryName = (string)reader["category"];
+                    string supplierName = (string)reader["supplier"];
 
-                    ProductCategory category = new ProductCategory() { Name=productCategory};
-                    Supplier supplier = new Supplier() { Name = productSupplier };
+                    ProductCategory category = new ProductCategory() { Name = categoryName };
+                    Supplier supplier = new Supplier() { Name = supplierName };
 
                     var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
                     data.Add(product);
@@ -177,13 +181,14 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT id, name, description, currency, default_price, product_category
+                    SELECT product.id as id, product.name as name, product.description as description, product.currency as currency, product.default_price as default_price, category.name as category
                     FROM product
-                    WHERE supplier=@Supplier;
+                    JOIN category ON product.categoryID = category.id
+                    WHERE product.supplierID=@Supplier;
                     ";
 
                 command.CommandText = selectProductsSql;
-                command.Parameters.AddWithValue("@Supplier", supplier.Name);
+                command.Parameters.AddWithValue("@Supplier", supplier.Id);
 
                 using var reader = command.ExecuteReader();
                 List<Product> data = new List<Product>();
@@ -195,9 +200,9 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string description = (string)reader["description"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
-                    string productCategory = (string)reader["product_category"];
+                    string categoryName = (string)reader["category"];
 
-                    ProductCategory category = new ProductCategory() { Name = productCategory };
+                    ProductCategory category = new ProductCategory() { Name = categoryName};
 
                     var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
                     data.Add(product);
@@ -222,13 +227,14 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string selectProductsSql =
                     @"
-                    SELECT id, name, description, currency, default_price, supplier
+                    SELECT product.id as id, product.name as name, product.description as description, product.currency as currency, product.default_price as default_price, supplier.name as supplier
                     FROM product
-                    WHERE product_category=@ProductCategory;
+                    JOIN supplier ON product.supplierID = supplier.id
+                    WHERE product.categoryID=@ProductCategory;
                     ";
 
                 command.CommandText = selectProductsSql;
-                command.Parameters.AddWithValue("@ProductCategory", productCategory.Name);
+                command.Parameters.AddWithValue("@ProductCategory", productCategory.Id);
 
                 List<Product> data = new List<Product>();
                 using var reader = command.ExecuteReader();
@@ -240,9 +246,9 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string description = (string)reader["description"];
                     string currency = (string)reader["currency"];
                     decimal defaultPrice = (decimal)reader["default_price"];
-                    string productSupplier = (string)reader["supplier"];
+                    string supplierName = (string)reader["supplier"];
 
-                    Supplier supplier = new Supplier() { Name = productSupplier };
+                    Supplier supplier = new Supplier() { Name = supplierName };
 
                     var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = productCategory, Supplier = supplier };
                     data.Add(product);

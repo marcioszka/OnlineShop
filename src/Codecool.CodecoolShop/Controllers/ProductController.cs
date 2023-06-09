@@ -22,8 +22,6 @@ namespace Codecool.CodecoolShop.Controllers
         
         public CartService CartService { get; set; }
 
-        public Order Order { get; set; }
-
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
@@ -31,52 +29,46 @@ namespace Codecool.CodecoolShop.Controllers
                 ProductDaoDB.GetInstance(),
                 ProductCategoryDaoDB.GetInstance(),
                 SupplierDaoDB.GetInstance());
+
         }
 
         public IActionResult Index()
         {
-            dynamic myModel = new ExpandoObject();
-            myModel.Products = ProductService.GetAllProducts();
-            //myModel.Products = ProductService.GetProductsForCategory(1);
-            myModel.Categories = ProductService.GetProductCategories();
-            myModel.Suppliers = ProductService.GetSuppliers();
+            List<Product> products = ProductService.GetAllProducts().ToList();
+            ViewBag.categories = ProductService.GetProductCategories();
+            ViewBag.suppliers = ProductService.GetSuppliers();
             var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             if (order != null)
             {
-                ViewBag.cart = order.Items;
                 ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
             }            
-            return View(myModel);
+            return View(products);
         }
 
         public IActionResult Category(int id)
         {
-            dynamic myModel = new ExpandoObject();
-            myModel.Products = ProductService.GetProductsForCategory(id);
-            myModel.Categories = ProductService.GetProductCategories();
-            myModel.Suppliers = ProductService.GetSuppliers();
+            List<Product> products = ProductService.GetProductsForCategory(id).ToList();
+            ViewBag.categories = ProductService.GetProductCategories();
+            ViewBag.suppliers = ProductService.GetSuppliers();
             var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             if (order != null)
             {
-                ViewBag.cart = order.Items;
                 ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
             }
-            return View("Index", myModel);
+            return View("Index", products);
         }
 
         public IActionResult Supplier(int id)
         {
-            dynamic myModel = new ExpandoObject();
-            myModel.Products = ProductService.GetProductsForSupplier(id);
-            myModel.Categories = ProductService.GetProductCategories();
-            myModel.Suppliers = ProductService.GetSuppliers();
+            List<Product> products = ProductService.GetProductsForSupplier(id).ToList();
+            ViewBag.categories = ProductService.GetProductCategories();
+            ViewBag.suppliers = ProductService.GetSuppliers();
             var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             if (order != null)
             {
-                ViewBag.cart = order.Items;
                 ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
             }
-            return View("Index", myModel);
+            return View("Index", products);
         }
 
         

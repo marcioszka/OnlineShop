@@ -41,13 +41,14 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                 string insertOrderSql =
                     @"
-                    INSERT INTO orders (id, userID)
-                    VALUES (@Id, @UserID);
+                    INSERT INTO orders (id, userID, addressID)
+                    VALUES (@Id, @UserID, @AddressID);
                     ";
 
                 command.CommandText = insertOrderSql;
                 command.Parameters.AddWithValue("@Id", item.Id);
                 command.Parameters.AddWithValue("@UserID", 1);
+                command.Parameters.AddWithValue("@AddressID", 1);
             }
             catch (SqlException exception)
             {
@@ -90,7 +91,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     command.CommandText = insertOrderDetailsSql;
                     command.Parameters.AddWithValue("@Id", item.Id);
                     command.Parameters.AddWithValue("@Name", item.Name);
-                    command.Parameters.AddWithValue("@Price", item.Price);
+                    command.Parameters.AddWithValue("@Price", item.DefaultPrice);
                     command.Parameters.AddWithValue("@Currency", item.Currency);
                     command.Parameters.AddWithValue("@Quantity", item.Quantity);
                     command.Parameters.AddWithValue("@Order_id", order.Id);
@@ -132,7 +133,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string currency = (string)reader["currency"];
                     int quantity = (int)reader["quantity"];
 
-                    LineItem item = new LineItem(id) { Name = name, Price = price, Currency = currency, Quantity = quantity };
+                    LineItem item = new LineItem(id) { Name = name, DefaultPrice = price, Currency = currency, Quantity = quantity };
                    
                     data.Add(item);
                 }
@@ -174,7 +175,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string currency = (string)reader["currency"];
 
                     item.Name = name;
-                    item.Price = defaultPrice;
+                    item.DefaultPrice = defaultPrice;
                     item.Currency = currency;
                     item.Quantity = 1;
                 }

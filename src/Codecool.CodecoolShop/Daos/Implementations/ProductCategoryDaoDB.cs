@@ -64,7 +64,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.Parameters.AddWithValue("@Id", id);
 
                 using var reader = command.ExecuteReader();
-                ProductCategory item = new ProductCategory();
+                ProductCategory item = new ProductCategory() { Id = id };
 
                 if (reader.Read())
                 {
@@ -72,7 +72,6 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     string description = (string)reader["description"];
                     string department = (string)reader["department"];
 
-                    item.Id = id;
                     item.Name = name;
                     item.Description = description;
                     item.Department = department;
