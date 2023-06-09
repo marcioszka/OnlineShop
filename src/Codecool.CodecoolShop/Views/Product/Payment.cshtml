@@ -1,0 +1,37 @@
+﻿
+@using Microsoft.Extensions.Options
+@using Codecool.CodecoolShop.Services
+@inject IOptions<Codecool.CodecoolShop.Models.StripeSettings> Stripe
+@model Order
+
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container card justify-content-center" style="margin-top: 20px; margin-bottom: 20px; max-width: 500px;">
+    <div class="ps-5 pe-5 justify-content-center" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="text-center">
+        <h2 class="mb-3 text-warning">Payment</h2>
+
+        
+            <form asp-action="Charge" asp-controller="Product" asp-route-orderId=@ViewBag.OrderId method="POST">
+                <article>
+                    <p> <strong>Order number:</strong> @Model.Id </p>
+                    <p> <strong>Address:</strong> @Model.ClientAddress  <strong>City:</strong> @Model.City</p>
+                    <p> <strong>Country:</strong> @Model.Country </p>
+                    <p> <strong>Recipient:</strong> @Model.FirstName @Model.LastName </p>
+                    <p> <strong>Email:</strong> @Model.ClientEmail </p>
+                    <p> <strong>Amount:</strong> $ @ViewBag.OrderTotal</p>
+                </article>
+                <script src="//checkout.stripe.com/v2/checkout.js"
+                        class="stripe-button"
+                        data-key="@Stripe.Value.PublishableKey"
+                        data-locale="auto"
+                        data-description="Sample Charge">
+                </script>
+            </form>
+        </div>
+
+    </div>
+</div>
+

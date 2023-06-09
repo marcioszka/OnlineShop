@@ -1,33 +1,36 @@
-﻿using System.Collections.Generic;
-using Codecool.CodecoolShop.Daos;
+﻿using Codecool.CodecoolShop.Daos;
 using Codecool.CodecoolShop.Daos.Implementations;
 using Codecool.CodecoolShop.Models;
+using System.Collections.Generic;
 
 namespace Codecool.CodecoolShop.Services
 {
-    public class CartService : Order
+    public class CartService
     {
-        private readonly IOrderDao orderDaoDB;
-        //private readonly ILineItemDao lineItemDao;
-        //public Order Order { get; set; }
+        private readonly CartDaoMemory cartDao;
+        private readonly IProductCategoryDao productCategoryDao;
+        private readonly ISupplierDao supplierDao;
 
-        public CartService(IOrderDao orderDaoDB)
+        public CartService(CartDaoMemory cartDao, IProductCategoryDao productCategoryDao, ISupplierDao supplierDao)
         {
-            this.orderDaoDB = orderDaoDB;
+            this.cartDao = cartDao;
+            this.productCategoryDao = productCategoryDao;
+            this.supplierDao = supplierDao;
         }
 
-        //public void CreateOrder() => this.Order = new Order();
-
-        public void SaveOrder(Order Order)
+        public Cart GetCart()
         {
-            this.orderDaoDB.AddOrderDetails(Order);
-            this.orderDaoDB.Add(Order);
+            return cartDao.cart;
         }
 
-        public LineItem GetProductDetails(int id) => this.orderDaoDB.GetProductDetails(id);
+        public IEnumerable<ProductCategory> GetAllCategories()
+        {
+            return productCategoryDao.GetAll();
+        }
 
-        public IEnumerable<LineItem> GetAllOrders(int id) => this.orderDaoDB.GetOrderDetails(id);
-
-
+        public IEnumerable<Supplier> GetAllSuppliers()
+        {
+            return supplierDao.GetAll();
+        }
     }
 }

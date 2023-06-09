@@ -1,48 +1,46 @@
-﻿using Codecool.CodecoolShop.Daos.Implementations;
+﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Codecool.CodecoolShop.Models
 {
+    [Serializable]
     public class Order
     {
-        private static int idCounter;
         public int Id { get; set; }
-
-        public int userId { get; set; }
-        public List<LineItem> Items { get; set; }
-
-        //private static Order instance = null;
-
-        public Order(int userId=1) 
-        {
-            this.Id = System.Threading.Interlocked.Increment(ref idCounter);
-            this.userId = userId;
-            this.Items = new List<LineItem>();
-        }
-
-        //public static Order GetInstance()
-        //{
-        //    if (instance == null)
-        //    {
-        //        instance = new Order();
-        //    }
-
-        //    return instance;
-        //}
-        public static Order GetInstance() => new Order();
-        //public void AddLineItem(int id, string name, decimal price) => this.Items.Add(new LineItem(id, name, price));
-
-        public void AddLineItem(LineItem item) => this.Items.Add(item);
-
-        public override string ToString()
-        {
-            string orderDetails = "";
-            foreach (LineItem item in Items)
-            {
-                orderDetails += $"{item.Name}-{item.Quantity}-{item.Price};";
-            }
-            return orderDetails;
-        }
+        public string AccountId { get; set; }
+        public string OrderStatus { get; set; }
+        //[Required, MinLength(3, ErrorMessage = "First Name must contain at least 3 characters")]
+        public string FirstName { get; set; }
+        //[Required, MinLength(3, ErrorMessage = "Last Name must contain at least 3 characters")]
+        public string LastName { get; set; }
+        //[Required]
+        //[RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
+         //ErrorMessage = "Invalid email format")]
+        public string ClientEmail { get; set; }
+        //[Required]
+        //[RegularExpression(@"[A-Za-z0-9'\.\-\s\,]",
+        //ErrorMessage = "Invalid address format")]
+        public string ClientAddress { get; set; }
+        //[Required]
+        //[RegularExpression(@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}",
+         //ErrorMessage = "Invalid phone number format")]
+        public string PhoneNumber { get; set; }
+        //[Required]
+        //[RegularExpression(@"/[a-zA-Z]{2,}/gm",
+         //ErrorMessage = "Invalid country format")]
+        public string Country { get; set; }
+        //[Required]
+        //[RegularExpression(@"^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$",
+         //ErrorMessage = "Invalid city format")]
+        public string City { get; set; }
+        //[Required]
+        //[RegularExpression(@"\d{6}",
+        //ErrorMessage = "Invalid zip code format")]
+        public string ZipCode { get; set; }
+        public DateTime OrderDate { get; set; }
+        public List<OrderProduct> OrderProducts { get; set; }
     }
 }

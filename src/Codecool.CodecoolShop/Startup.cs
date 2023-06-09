@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Codecool.CodecoolShop.Daos;
-using Codecool.CodecoolShop.Daos.Implementations;
+using Codecool.CodecoolShop.Data;
 using Codecool.CodecoolShop.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 
 namespace Codecool.CodecoolShop
 {
@@ -24,32 +19,43 @@ namespace Codecool.CodecoolShop
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ShopConnection")));
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
-            services.AddSession();
+
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
-                app.UseExceptionHandler("/Product/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler("/Shared/Error");
                 app.UseHsts();
             }
-            app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -57,39 +63,8 @@ namespace Codecool.CodecoolShop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Product}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
-
-            //SetupInMemoryDatabases();
-
-            //RetrieveFromDatabase();
-        }
-
-        private void RetrieveFromDatabase()
-        {
-            IProductDao productDataDB = ProductDaoDB.GetInstance();
-            IProductCategoryDao productCategoryDataDB = ProductCategoryDaoMemory.GetInstance();
-            ISupplierDao supplierDataDB = SupplierDaoMemory.GetInstance();
-
-            var suppliers = supplierDataDB.GetAll();
-            var productCategories = productCategoryDataDB.GetAll();
-            var products = productDataDB.GetAll();
-        }
-
-        private void SetupInMemoryDatabases()
-        {
-            IProductDao productDataStore = ProductDaoMemory.GetInstance();
-            IProductCategoryDao productCategoryDataStore = ProductCategoryDaoMemory.GetInstance();
-            ISupplierDao supplierDataStore = SupplierDaoMemory.GetInstance();
-
-            Supplier amazon = new Supplier{Name = "Amazon", Description = "Digital content and services"};
-            supplierDataStore.Add(amazon);
-            Supplier lenovo = new Supplier{Name = "Lenovo", Description = "Computers"};
-            supplierDataStore.Add(lenovo);
-            ProductCategory tablet = new ProductCategory {Name = "Tablet", Department = "Hardware", Description = "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display." };
-            productCategoryDataStore.Add(tablet);
-            productDataStore.Add(new Product { Name = "Amazon Fire", DefaultPrice = 49.9m, Currency = "USD", Description = "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", ProductCategory = tablet, Supplier = amazon });
-            productDataStore.Add(new Product { Name = "Lenovo IdeaPad Miix 700", DefaultPrice = 479.0m, Currency = "USD", Description = "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", ProductCategory = tablet, Supplier = lenovo });
-            productDataStore.Add(new Product { Name = "Amazon Fire HD 8", DefaultPrice = 89.0m, Currency = "USD", Description = "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", ProductCategory = tablet, Supplier = amazon });
         }
     }
 }

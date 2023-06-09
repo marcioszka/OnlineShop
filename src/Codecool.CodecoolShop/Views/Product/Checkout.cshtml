@@ -1,0 +1,117 @@
+﻿@*@Model.Order*@
+@model Order
+
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container card" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="row" style="justify-content:center; margin-top: 20px; margin-bottom: 20px;">
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+            <form class="needs-validation" novalidate method="post" action="OnPost" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FirstName">First name</label>
+                        <input asp-for="FirstName" type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                        @*<span asp-validation-for="FirstName" class="text-danger"></span>*@
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" asp-for="LastName">Last name</label>
+                        <input asp-for="LastName" type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                        @*<span asp-validation-for="LastName" class="text-danger"></span>*@
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ClientEmail" for="email">Email</label>
+                    <input asp-for="ClientEmail" type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                    @*<span asp-validation-for="ClientEmail" class="text-danger"></span>*@
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ClientAddress" for="address">Address</label>
+                    <input asp-for="ClientAddress" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                    @*<span asp-validation-for="ClientAddress" class="text-danger"></span>*@
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PhoneNumber" for="address2">Phone number</label>
+                    <input asp-for="PhoneNumber" type="text" class="form-control" id="phonenumber" placeholder="(+40) 999 999 999" required>
+                </div>
+                @*<span asp-validation-for="PhoneNumber" class="text-danger"></span>*@
+
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label asp-for="Country" for="country">Country</label>
+                        <input asp-for="Country" type="text" class="form-control" id="Country" placeholder="USA" required>
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                        @*<span asp-validation-for="Country" class="text-danger"></span>*@
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="City" for="state">City</label>
+                        <input asp-for="City" type="text" class="form-control" id="City" placeholder="New York" required>
+                        <div class="invalid-feedback">
+                            Please provide a valid city.
+                        </div>
+                        @*<span asp-validation-for="City" class="text-danger"></span>*@
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="ZipCode" for="zip">Zip</label>
+                        <input asp-for="ZipCode" type="text" class="form-control" id="zip" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Zip code required.
+                        </div>
+                        @*<span asp-validation-for="ZipCode" class="text-danger"></span>*@
+                    </div>
+                </div>
+                <button class="btn btn-warning btn-lg btn-block" style="font-weight: bold; font-size: 15px;" type="submit">Continue to Payment</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
