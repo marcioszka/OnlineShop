@@ -77,10 +77,11 @@ namespace Codecool.CodecoolShop.Controllers
             return View(checkout);
         }
 
-        public void Payment(Checkout checkout) //TODO: check
+        public IActionResult Payment(Checkout checkout) //TODO: check
         {
-            //if (!HttpMethods.IsPost(Request.Method)) return RedirectToAction(""); //action??
-            //return View(checkout);
+            checkout.Status = true;
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "checkout", checkout);
+            return View(checkout);
         }
 
         public IActionResult Add(int id)
