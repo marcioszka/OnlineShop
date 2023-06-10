@@ -77,11 +77,32 @@ namespace Codecool.CodecoolShop.Controllers
             return View(checkout);
         }
 
-        public IActionResult Payment(Checkout checkout) //TODO: check
+        public IActionResult CheckoutForm(Checkout checkout)
         {
             checkout.Status = true;
             SessionHelper.SetObjectAsJson(HttpContext.Session, "checkout", checkout);
-            return View(checkout);
+            return RedirectToAction("Cart");
+        }
+
+        public IActionResult Payment()
+        {
+            if (SessionHelper.GetObjectFromJson<Checkout>(HttpContext.Session, "checkout") == null) return RedirectToAction("Cart");
+            Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            ViewBag.Count = order.CountItems();
+            return View(order);
+        }
+
+        public IActionResult Pay(CreditCard data)
+        {
+            Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            CartService.SaveOrder(order);
+            return RedirectToAction("Confirmation");
+        }
+
+        public IActionResult Confirmation()
+        {
+            Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            return View(order);
         }
 
         public IActionResult Add(int id)

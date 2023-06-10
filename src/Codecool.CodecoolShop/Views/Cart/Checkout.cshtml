@@ -1,15 +1,8 @@
 ﻿@model Codecool.CodecoolShop.Models.Checkout
 
 <h4>Order no. @Model.OrderId:</h4>
-@{
-    int counter = 1;
-}
-<!--//foreach(var item in Model.Items)
-//{
-    <p>counter. item.ToString()</p>
-    counter++;
-}-->
-<form asp-action="Payment" asp-controller="Cart" method="post" style="display:inherit">
+
+<form asp-action="CheckoutForm" asp-controller="Cart" method="post" style="display:inherit">
     <div class="clientData">
         <h4>Personal data:</h4>
         @Html.HiddenFor(o => o.OrderId)
@@ -30,8 +23,6 @@
         @Html.EditorFor(o => o.BillingAddress.ZipCode)
         @Html.Label("Street: ")
         @Html.EditorFor(o => o.BillingAddress.Street)
-        @Html.Label("Postal Code: ")
-        @Html.EditorFor(o => o.BillingAddress.Number)
     </div>
     <div class="shippingAddress">
         <h4>Shipping address:</h4>
@@ -43,57 +34,7 @@
         @Html.EditorFor(o => o.ShippingAddress.ZipCode)
         @Html.Label("Street: ")
         @Html.EditorFor(o => o.ShippingAddress.Street)
-        @Html.Label("Postal Code: ")
-        @Html.EditorFor(o => o.ShippingAddress.Number)
     </div>
-    <input value="Go to payment" type="submit" />
+    <input value="Save data" type="submit" />
 </form>
-<!--<form asp-action="Payment" asp-controller="Cart" method="post" style="display:inherit">
-    <div class="clientData">
-        <h4>Personal data:</h4>
-        <input hidden name="Id" id="Model.Id" />
-        <label for="Name">Name: </label>
-        <input name="Name" id="Name" />
-        <br />
-        <label for="Email">E-mail: </label>
-        <input name="Email" id="Email" />
-        <br />
-        <label for="PhoneNumber">Phone number: </label>
-        <input for="PhoneNumber" id="PhoneNumber" />
-    </div>
-    <div class="billingAddress">
-        <h4>Billing address:</h4>
-        <label for="billingCountry">Country: </label>
-        <input name="BillingAddress.Country" id="billingCountry" />
-        <br />
-        <label for="billingCity">City: </label>
-        <input name="BillingAddress.City" id="billingCity" />        
-        <br />
-        <label for="billingZipCode">Zip Code: </label>
-        <input for="BillingAddress.ZipCode" id="billingZipCode" />
-        <br />
-        <label for="billingStreet">Street: </label>
-        <input for="BillingAddress.Street" id="billingStreet" />
-        <br />
-        <label for="billingPostalCode">PostalCode: </label>
-        <input for="BillingAddress.PostalCode" id="billingPostalCode" />
-    </div>
-    <div class="shippingAddress">
-        <h4>Shipping address:</h4>
-        <label for="shippingCountry">Country: </label>
-        <input name="ShippingAddress.Country" id="shippingCountry" />
-        <br />
-        <label for="shippingCity">City: </label>
-        <input name="ShippingAddress.City" id="shippingCity" />
-        <br />
-        <label for="shippingZipCode">Zip Code: </label>
-        <input for="ShippingAddress.ZipCode" id="shippingZipCode" />
-        <br />
-        <label for="shippingStreet">Street: </label>
-        <input for="ShippingAddress.Street" id="shippingStreet" />
-        <br />
-        <label for="shippingPostalCode">PostalCode: </label>
-        <input for="ShippingAddress.PostalCode" id="shippingPostalCode" />
-    </div>
-    <input value="Go to payment" type="submit" />
-</form>-->
+
