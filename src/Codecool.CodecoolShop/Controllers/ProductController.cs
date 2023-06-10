@@ -40,7 +40,7 @@ namespace Codecool.CodecoolShop.Controllers
             var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             if (order != null)
             {
-                ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
+                ViewBag.Count = order.Items.Sum(lineItem => lineItem.Quantity);
             }            
             return View(products);
         }
@@ -53,7 +53,7 @@ namespace Codecool.CodecoolShop.Controllers
             var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             if (order != null)
             {
-                ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
+                ViewBag.Count = order.Items.Sum(lineItem => lineItem.Quantity);
             }
             return View("Index", products);
         }
@@ -66,7 +66,7 @@ namespace Codecool.CodecoolShop.Controllers
             var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             if (order != null)
             {
-                ViewBag.count = order.Items.Sum(lineItem => lineItem.Quantity);
+                ViewBag.Count = order.Items.Sum(lineItem => lineItem.Quantity);
             }
             return View("Index", products);
         }

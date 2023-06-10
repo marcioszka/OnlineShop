@@ -10,7 +10,7 @@ namespace Codecool.CodecoolShop.Models
     {
         private static int idCounter;
         public int Id { get; set; }
-
+        public string Name { get; set; }
         public int userId { get; set; }
         public List<LineItem> Items { get; set; }
 

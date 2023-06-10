@@ -24,7 +24,6 @@ namespace Codecool.CodecoolShop.Controllers
                 OrderDaoDB.GetInstance()
                 );
         }
-
        
         public IActionResult Cart()
         {
@@ -33,14 +32,13 @@ namespace Codecool.CodecoolShop.Controllers
             {
                 order.ItemsCount = order.CountItems();
                 ViewData["OrderId"] = order.Id;
-                ViewBag.count = order.CountItems();
+                ViewBag.Count = order.CountItems();
             }
             return View(order);
         }
 
         public IActionResult QuantityUp(int id)
         {
-            //int productQuantity = Convert.ToInt32(quantity);
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             int indexInCart = IndexInCart(id);
             order.Items[indexInCart].Quantity++;
@@ -50,7 +48,6 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult QuantityDown(int id)
         {
-            //int productQuantity = Convert.ToInt32(quantity);
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             int indexInCart = IndexInCart(id);
             order.Items[indexInCart].Quantity--;
@@ -66,8 +63,14 @@ namespace Codecool.CodecoolShop.Controllers
         {
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             order.Sum = order.CountSum();
-            ViewBag.Price = order.Sum;
+            ViewBag.TotalPrice = order.Sum;
             return View("Cart", order);
+        }
+
+        public IActionResult Checkout()
+        {
+            Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            return View(order);
         }
 
         public IActionResult Add(int id)

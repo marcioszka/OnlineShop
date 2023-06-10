@@ -7,8 +7,8 @@
 else
 {
 <h4>Order no. @Model.Id</h4>
-<form action="Quantity" method="post">
-    <table>
+    <form method="post">
+    <table class="order">
         <tr>
             <th>No.</th>
             <th>Product</th>
@@ -41,5 +41,6 @@ else
                 <td>@Model.CountSum() @currency</td>
         </tr>
     </table>
-</form>
-       }
+    <button asp-controller="Cart" asp-action="Checkout">Checkout</button>
+    </form>
+}

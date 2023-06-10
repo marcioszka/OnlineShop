@@ -28,13 +28,13 @@
                         <li class="nav-item">
 
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Cart" asp-route-id="@ViewData["OrderId"]">
-                                <i class="fa fa-shopping-cart" style="font-size:20px"></i>@if (@ViewBag.price == null)
+                                <i class="fa fa-shopping-cart" style="font-size:20px"></i>@if (@ViewBag.TotalPrice == null)
                                 {
-                                    <sup>@ViewBag.count</sup>
+                                    <sup>@ViewBag.Count</sup>
                                 }
                                 else
                                 {
-                                    <sup>@ViewBag.price</sup>
+                                    <sup>@ViewBag.TotalPrice</sup>
                                 }
                             </a>
                         </li>
