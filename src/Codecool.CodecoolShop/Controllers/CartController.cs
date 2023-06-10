@@ -68,7 +68,7 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Cart", order);
         }
 
-        public IActionResult Checkout() //TODO: check
+        public IActionResult Checkout()
         {
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
             Checkout checkout = new Checkout();
