@@ -13,5 +13,10 @@ namespace Codecool.CodecoolShop.Models
         }
 
         public decimal CountPrice() => this.Quantity * this.DefaultPrice;
+
+        public override string ToString()
+        {
+            return $"{this.Name} - {Quantity} * {this.DefaultPrice} {this.Currency} - {this.CountPrice()}";
+        }
     }
 }

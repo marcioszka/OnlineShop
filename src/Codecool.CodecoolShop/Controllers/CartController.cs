@@ -2,6 +2,7 @@
 using Codecool.CodecoolShop.Helpers;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -67,10 +68,17 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Cart", order);
         }
 
-        public IActionResult Checkout()
+        public IActionResult Checkout() //TODO: check
         {
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            ViewBag.Count = order.CountItems();
             return View(order);
+        }
+
+        public IActionResult Payment(Checkout checkout) //TODO: check
+        {
+            if(!HttpMethods.IsPost(Request.Method)) return RedirectToAction(""); //action??
+            return View(checkout);
         }
 
         public IActionResult Add(int id)

@@ -11,7 +11,7 @@ namespace Codecool.CodecoolShop.Models
         private static int idCounter;
         public int Id { get; set; }
         public string Name { get; set; }
-        public int userId { get; set; }
+        public int UserId { get; set; }
         public List<LineItem> Items { get; set; }
 
         public decimal Sum { get; set; }
@@ -21,7 +21,7 @@ namespace Codecool.CodecoolShop.Models
         public Order(int userId=1) 
         {
             this.Id = System.Threading.Interlocked.Increment(ref idCounter);
-            this.userId = userId;
+            this.UserId = userId;
             this.Items = new List<LineItem>();
         }
 

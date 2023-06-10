@@ -1,6 +1,16 @@
 ﻿@model Codecool.CodecoolShop.Models.Order
 
-<form action="..." method="post" style="display:inherit">
+<h4>Order no. @Model.Id:</h4>
+@{
+    int counter = 1;
+}
+@foreach(var item in @Model.Items)
+{
+    <p>@counter. @item.ToString()</p>
+    counter++;
+}
+
+<form asp-action="Payment" asp-controller="Cart" method="post" style="display:inherit">
     <div class="clientData">
         <h4>Personal data:</h4>
         <input hidden name="Id" id="@Model.Id" />
@@ -47,5 +57,5 @@
         <label for="shippingPostalCode">PostalCode: </label>
         <input for="ShippingAddress.PostalCode" id="shippingPostalCode" />
     </div>
-    <input value="Submit" type="submit" />
+    <input value="Go to payment" type="submit" />
 </form>
