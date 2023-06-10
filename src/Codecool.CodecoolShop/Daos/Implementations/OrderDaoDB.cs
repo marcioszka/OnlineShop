@@ -55,7 +55,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 throw exception;
             }
         }
-        
+
         public void Remove(int id)
         {
             throw new System.NotImplementedException();
@@ -80,7 +80,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 using var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
 
-                foreach(var item in order.Items)
+                foreach (var item in order.Items)
                 {
                     string insertOrderDetailsSql =
                     @"
@@ -134,7 +134,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     int quantity = (int)reader["quantity"];
 
                     LineItem item = new LineItem(id) { Name = name, DefaultPrice = price, Currency = currency, Quantity = quantity };
-                   
+
                     data.Add(item);
                 }
 

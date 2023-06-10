@@ -19,7 +19,7 @@ namespace Codecool.CodecoolShop.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         public ProductService ProductService { get; set; }
-        
+
         public CartService CartService { get; set; }
 
         public ProductController(ILogger<ProductController> logger)
@@ -41,7 +41,7 @@ namespace Codecool.CodecoolShop.Controllers
             if (order != null)
             {
                 ViewBag.Count = order.Items.Sum(lineItem => lineItem.Quantity);
-            }            
+            }
             return View(products);
         }
 
@@ -71,7 +71,7 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Index", products);
         }
 
-        
+
         public IActionResult Privacy()
         {
             return View();

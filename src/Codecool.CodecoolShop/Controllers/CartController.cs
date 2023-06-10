@@ -25,7 +25,7 @@ namespace Codecool.CodecoolShop.Controllers
                 OrderDaoDB.GetInstance()
                 );
         }
-       
+
         public IActionResult Cart()
         {
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
@@ -77,14 +77,14 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Payment(Checkout checkout) //TODO: check
         {
-            if(!HttpMethods.IsPost(Request.Method)) return RedirectToAction(""); //action??
+            if (!HttpMethods.IsPost(Request.Method)) return RedirectToAction(""); //action??
             return View(checkout);
         }
 
         public IActionResult Add(int id)
         {
             LineItem lineItem = CartService.GetProductDetails(id);
-            if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null) 
+            if (SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order") == null)
             {
                 Order order = new Order();
                 order.AddLineItem(lineItem);
@@ -104,7 +104,7 @@ namespace Codecool.CodecoolShop.Controllers
         private int IndexInCart(int id)
         {
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
-            for (int i = 0; i< order.Items.Count; i++)
+            for (int i = 0; i < order.Items.Count; i++)
             {
                 if (order.Items[i].Id.Equals(id)) return i;
             }

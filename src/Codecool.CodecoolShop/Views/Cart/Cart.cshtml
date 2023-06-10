@@ -6,41 +6,41 @@
 }
 else
 {
-<h4>Order no. @Model.Id</h4>
+    <h4>Order no. @Model.Id</h4>
     <form method="post">
-    <table class="order">
-        <tr>
-            <th>No.</th>
-            <th>Product</th>
-            <th>Price per product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
-                @{
-                    int counter = 1;
-                    string currency = "";
-                }
-            @foreach (var lineItem in Model.Items)
-        {
+        <table class="order">
             <tr>
-                <td>@counter.</td>
-                <td>@lineItem.Name</td>
-                <td>@lineItem.DefaultPrice @lineItem.Currency</td>
+                <th>No.</th>
+                <th>Product</th>
+                <th>Price per product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            @{
+                int counter = 1;
+                string currency = "";
+            }
+            @foreach (var lineItem in Model.Items)
+            {
+                <tr>
+                    <td>@counter.</td>
+                    <td>@lineItem.Name</td>
+                    <td>@lineItem.DefaultPrice @lineItem.Currency</td>
                     <td><button asp-action="QuantityDown" asp-controller="Cart" asp-route-id="@lineItem.Id">-</button><input id="@lineItem.Id" class="quantitybox" type="text" value="@lineItem.Quantity"><button asp-action="QuantityUp" asp-controller="Cart" asp-route-id="@lineItem.Id">+</button></td>
-                    
+
                     @{
                         decimal totalprice = lineItem.Quantity * lineItem.DefaultPrice;
                         counter++;
                         currency = @lineItem.Currency;
                     }
-                        <td>@totalprice @lineItem.Currency</td>
-            </tr>
-        }   
-        <tr>
-            <td colspan="4"><strong>Total price: </strong></td>
+                    <td>@totalprice @lineItem.Currency</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="4"><strong>Total price: </strong></td>
                 <td>@Model.CountSum() @currency</td>
-        </tr>
-    </table>
-    <button asp-controller="Cart" asp-action="Checkout">Checkout</button>
+            </tr>
+        </table>
+        <button asp-controller="Cart" asp-action="Checkout">Checkout</button>
     </form>
 }

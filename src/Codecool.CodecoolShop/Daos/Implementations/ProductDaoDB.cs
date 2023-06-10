@@ -9,8 +9,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductDaoDB : IProductDao
     {
-        private readonly string _connectionString = "Server=localhost;Database=ShopCodecool;User Id=sa;Password=@Sdf1234;TrustServerCertificate=True;";
-        
+        private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
+
         private List<Product> data = new List<Product>();
 
         private static ProductDaoDB instance = null;
@@ -111,7 +111,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     item.Currency = currency;
                     item.DefaultPrice = defaultPrice;
                     item.ProductCategory = category;
-                    item.Supplier = supplier;                   
+                    item.Supplier = supplier;
                 }
 
                 return item;
@@ -141,7 +141,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     ";
 
                 command.CommandText = selectProductsSql;
-                
+
                 using var reader = command.ExecuteReader();
                 List<Product> data = new List<Product>();
 
@@ -202,7 +202,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     decimal defaultPrice = (decimal)reader["default_price"];
                     string categoryName = (string)reader["category"];
 
-                    ProductCategory category = new ProductCategory() { Name = categoryName};
+                    ProductCategory category = new ProductCategory() { Name = categoryName };
 
                     var product = new Product() { Id = id, Name = name, Description = description, Currency = currency, DefaultPrice = defaultPrice, ProductCategory = category, Supplier = supplier };
                     data.Add(product);
