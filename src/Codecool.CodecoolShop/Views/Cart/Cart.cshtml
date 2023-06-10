@@ -3,7 +3,6 @@
 @if (Model == null)
 {
     <h4>There is no item in your shopping cart.</h4>
-    <!-- <h4>Model.Message</h4>-->
 }
 else
 {
@@ -27,17 +26,8 @@ else
                 <td>@counter.</td>
                 <td>@lineItem.Name</td>
                 <td>@lineItem.DefaultPrice @lineItem.Currency</td>
-            
-                <td>
-                    <input type="hidden" name="id" value="@lineItem.Id">
-                    <input type="text" name="quantity" value="@lineItem.Quantity">
-                    <input type="submit" value="Update">
-                            </td>
-                        @{
-                            string quantity = (@lineItem.Quantity).ToString(); 
-                        }
-                                       <!-- <td>@Html.TextBox("Quantity", quantity, new { 
-                            @Id = @lineItem.Id, @Value = @lineItem.Quantity })</td> -->
+                    <td><button asp-action="QuantityDown" asp-controller="Cart" asp-route-id="@lineItem.Id">-</button><input id="@lineItem.Id" class="quantitybox" type="text" value="@lineItem.Quantity"><button asp-action="QuantityUp" asp-controller="Cart" asp-route-id="@lineItem.Id">+</button></td>
+                    
                     @{
                         decimal totalprice = lineItem.Quantity * lineItem.DefaultPrice;
                         counter++;
