@@ -71,14 +71,16 @@ namespace Codecool.CodecoolShop.Controllers
         public IActionResult Checkout() //TODO: check
         {
             Order order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
+            Checkout checkout = new Checkout();
+            checkout.OrderId = order.Id;
             ViewBag.Count = order.CountItems();
-            return View(order);
+            return View(checkout);
         }
 
-        public IActionResult Payment(Checkout checkout) //TODO: check
+        public void Payment(Checkout checkout) //TODO: check
         {
-            if (!HttpMethods.IsPost(Request.Method)) return RedirectToAction(""); //action??
-            return View(checkout);
+            //if (!HttpMethods.IsPost(Request.Method)) return RedirectToAction(""); //action??
+            //return View(checkout);
         }
 
         public IActionResult Add(int id)

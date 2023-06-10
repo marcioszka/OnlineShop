@@ -8,6 +8,6 @@
         public int PhoneNumber { get; set; }
         public Address ShippingAddress { get; set; }
         public Address BillingAddress { get; set; }
-        public int Status { get; set; }
+        public bool Status { get; set; }
     }
 }

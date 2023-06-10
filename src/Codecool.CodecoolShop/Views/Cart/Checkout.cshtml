@@ -1,19 +1,57 @@
-﻿@model Codecool.CodecoolShop.Models.Order
+﻿@model Codecool.CodecoolShop.Models.Checkout
 
-<h4>Order no. @Model.Id:</h4>
+<h4>Order no. @Model.OrderId:</h4>
 @{
     int counter = 1;
 }
-@foreach(var item in @Model.Items)
-{
-    <p>@counter. @item.ToString()</p>
+<!--//foreach(var item in Model.Items)
+//{
+    <p>counter. item.ToString()</p>
     counter++;
-}
-
+}-->
 <form asp-action="Payment" asp-controller="Cart" method="post" style="display:inherit">
     <div class="clientData">
         <h4>Personal data:</h4>
-        <input hidden name="Id" id="@Model.Id" />
+        @Html.HiddenFor(o => o.OrderId)
+        @Html.Label("Name: ")
+        @Html.EditorFor(o => o.Name)
+        @Html.Label("E-mail: ")
+        @Html.EditorFor(o => o.Email)
+        @Html.Label("Phone number: ")
+        @Html.EditorFor(o => o.PhoneNumber)
+    </div>
+    <div class="billingAddress">
+        <h4>Billing address:</h4>
+        @Html.Label("Country: ")
+        @Html.EditorFor(o => o.BillingAddress.Country)
+        @Html.Label("City: ")
+        @Html.EditorFor(o => o.BillingAddress.City)
+        @Html.Label("Zip Code: ")
+        @Html.EditorFor(o => o.BillingAddress.ZipCode)
+        @Html.Label("Street: ")
+        @Html.EditorFor(o => o.BillingAddress.Street)
+        @Html.Label("Postal Code: ")
+        @Html.EditorFor(o => o.BillingAddress.Number)
+    </div>
+    <div class="shippingAddress">
+        <h4>Shipping address:</h4>
+        @Html.Label("Country: ")
+        @Html.EditorFor(o => o.ShippingAddress.Country)
+        @Html.Label("City: ")
+        @Html.EditorFor(o => o.ShippingAddress.City)
+        @Html.Label("Zip Code: ")
+        @Html.EditorFor(o => o.ShippingAddress.ZipCode)
+        @Html.Label("Street: ")
+        @Html.EditorFor(o => o.ShippingAddress.Street)
+        @Html.Label("Postal Code: ")
+        @Html.EditorFor(o => o.ShippingAddress.Number)
+    </div>
+    <input value="Go to payment" type="submit" />
+</form>
+<!--<form asp-action="Payment" asp-controller="Cart" method="post" style="display:inherit">
+    <div class="clientData">
+        <h4>Personal data:</h4>
+        <input hidden name="Id" id="Model.Id" />
         <label for="Name">Name: </label>
         <input name="Name" id="Name" />
         <br />
@@ -58,4 +96,4 @@
         <input for="ShippingAddress.PostalCode" id="shippingPostalCode" />
     </div>
     <input value="Go to payment" type="submit" />
-</form>
+</form>-->
