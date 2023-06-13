@@ -9,7 +9,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductDaoDB : IProductDao
     {
-        private readonly string _connectionString = "server=localhost;User ID=sa;Password=@Sdf1234;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "Server=localhost;Database=ShopCodecool;User Id=sa;Password=@Sdf1234;TrustServerCertificate=True;";
 
         private List<Product> data = new List<Product>();
 

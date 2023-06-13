@@ -8,7 +8,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class SupplierDaoDB : ISupplierDao
     {
-        private readonly string _connectionString = "server=localhost;User ID=sa;Password=@Sdf1234;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "Server=localhost;Database=ShopCodecool;User Id=sa;Password=@Sdf1234;TrustServerCertificate=True;";
         private static SupplierDaoDB instance = null;
 
         private SupplierDaoDB()
