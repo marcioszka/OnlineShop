@@ -78,7 +78,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -117,7 +117,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
     }

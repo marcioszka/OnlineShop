@@ -2,15 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Codecool.CodecoolShop.Daos;
 using Codecool.CodecoolShop.Daos.Implementations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
-using System.Configuration;
-using System.Dynamic;
 using Codecool.CodecoolShop.Helpers;
 
 namespace Codecool.CodecoolShop.Controllers
@@ -34,7 +30,7 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Index()
         {
-            List<Product> products = ProductService.GetAllProducts().ToList();
+            //List<Product> products = ProductService.GetAllProducts().ToList();
             ViewBag.categories = ProductService.GetProductCategories();
             ViewBag.suppliers = ProductService.GetSuppliers();
             var order = SessionHelper.GetObjectFromJson<Order>(HttpContext.Session, "order");
@@ -42,7 +38,7 @@ namespace Codecool.CodecoolShop.Controllers
             {
                 ViewBag.Count = order.Items.Sum(lineItem => lineItem.Quantity);
             }
-            return View(products);
+            return View();
         }
 
         public IActionResult Category(int id)

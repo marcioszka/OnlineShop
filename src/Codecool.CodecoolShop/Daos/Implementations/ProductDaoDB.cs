@@ -60,7 +60,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -118,7 +118,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -133,8 +133,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandType = CommandType.Text;
 
                 string selectProductsSql =
-                    @"
-                    SELECT product.id as id, product.name as name, product.description as description, product.currency as currency, product.default_price as default_price, category.name as category, supplier.name as supplier
+                    $@"
+                    SELECT{"ARG"} product.id as id, product.name as name, product.description as description, product.currency as currency, product.default_price as default_price, category.name as category, supplier.name as supplier
                     FROM product
                     JOIN category ON product.categoryID = category.id
                     JOIN supplier ON product.supplierID = supplier.id;
@@ -166,7 +166,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -212,7 +212,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
 
@@ -258,7 +258,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
             catch (SqlException exception)
             {
-                throw exception;
+                throw;
             }
         }
     }

@@ -36,7 +36,7 @@ namespace Codecool.CodecoolShop.Services
             return this.productDaoDB.GetBy(category);
         }
 
-        public IEnumerable<Product> GetAllProducts() => this.productDaoDB.GetAll();
+        //public IEnumerable<Product> GetAllProducts() => this.productDaoDB.GetAll();
 
         public Supplier GetProductSupplier(int supplierId) => this.supplierDaoDB.Get(supplierId);
 
