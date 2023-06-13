@@ -55,7 +55,7 @@
                     }
                     <p class="card-text">Supplier: @element.Supplier.Name</p>
                     <p class="card-text text-center"><strong>Price: @element.DefaultPrice @element.Currency</strong></p>
-                    <a asp-action="AddedToCart" asp-controller="Product" asp-route-id="@element.Id" asp-route-name="@element.Name" asp-route-price="@element.DefaultPrice" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                    <a asp-action="" asp-controller="Product" asp-route-id="@element.Id" asp-route-name="@element.Name" asp-route-price="@element.DefaultPrice" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductDaoDB : IProductDao
     {
-        private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "server=localhost;User ID=sa;Password=@Sdf1234;Trusted_Connection=True;TrustServerCertificate=True;";
 
         private List<Product> data = new List<Product>();
 
@@ -40,8 +40,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandType = CommandType.Text;
 
                 string insertProductSql =
-                    @"
-                    INSERT INTO product (name, description, currency, default_price, categoryID, supplierID)
+                    $@"
+                    INSERT INTO{"ARG"} product (name, description, currency, default_price, categoryID, supplierID)
                     VALUES (@Name, @Description, @Currency, @DefaultPrice, @ProductCategory, @Supplier);
 
                     SELECT SCOPE_IDENTITY();
@@ -79,8 +79,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandType = CommandType.Text;
 
                 string selectProductSql =
-                    @"
-                    SELECT product.name as name, product.description as description, product.currency as currency, product.default_price as default_price, category.name as category, supplier.name as supplier
+                    $@"
+                    SELECT{"ARG0"} product.name as name, product.description as description, product.currency as currency, product.default_price as default_price, category.name as category, supplier.name as supplier
                     FROM product
                     JOIN category ON product.categoryID = category.id
                     JOIN supplier ON product.supplierID = supplier.id

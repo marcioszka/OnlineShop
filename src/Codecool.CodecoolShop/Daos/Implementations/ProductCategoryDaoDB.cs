@@ -8,7 +8,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductCategoryDaoDB : IProductCategoryDao
     {
-        private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "server=localhost;User ID=sa;Password=@Sdf1234;Trusted_Connection=True;TrustServerCertificate=True;";
         private static ProductCategoryDaoDB instance = null;
 
         private ProductCategoryDaoDB()
@@ -54,8 +54,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandType = CommandType.Text;
 
                 string selectCategorySql =
-                    @"
-                    SELECT name, description, department
+                    $@"
+                    SELECT{"ARG"} name, description, department
                     FROM category
                     WHERE id=@Id;
                     ";
@@ -94,8 +94,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                 command.CommandType = CommandType.Text;
 
                 string selectCategoriesSql =
-                    @"
-                    SELECT id, name, description, department
+                    $@"
+                    SELECT{"ARG"} id, name, description, department
                     FROM category;
                     ";
 

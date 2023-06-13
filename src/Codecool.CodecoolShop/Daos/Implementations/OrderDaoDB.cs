@@ -9,7 +9,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class OrderDaoDB : IOrderDao
     {
-        private readonly string _connectionString = "Server=LAPTOP-ETC7SMLE\\MSSQLSERVER2019;Database=ShopCodecool;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "server=localhost;User ID=sa;Password=@Sdf1234;Trusted_Connection=True;TrustServerCertificate=True;";
 
         private List<Order> data = new List<Order>();
 
