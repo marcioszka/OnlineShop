@@ -15,17 +15,17 @@
             <div class="col-lg-auto"><a asp-action="Index" asp-controller="Product">ALL</a></div>
             @foreach (var category in ViewBag.categories)
             {
-                <div class="col-lg-auto">
+                <button class="col-lg-auto">
                     <a asp-action="Category" asp-controller="Product" asp-route-id="@category.Id">@category.Name</a>
-                </div>
+                </button>
             }
         </div>
         <div class="col-lg-6">
             @foreach (var supplier in ViewBag.suppliers)
             {
-                <div class="col-lg-auto">
+                <button class="col-lg-auto">
                     <a asp-action="Supplier" asp-controller="Product" asp-route-id="@supplier.Id">@supplier.Name</a>
-                </div>
+                </button>
             }
         </div>
     </div>
