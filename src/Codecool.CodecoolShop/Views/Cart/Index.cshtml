@@ -1,4 +1,4 @@
-@model List<Codecool.CodecoolShop.Models.Product>
+﻿@model dynamic
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -13,19 +13,19 @@
     <div class="filter" style="position: relative; display: flex; margin: auto">
         <div class="col-lg-6">
             <div class="col-lg-auto"><a asp-action="Index" asp-controller="Product">ALL</a></div>
-            @foreach (var category in ViewBag.categories)
+            @foreach (ProductCategory category in Model.Categories)
             {
-                <button class="col-lg-auto">
+                <div class="col-lg-auto">
                     <a asp-action="Category" asp-controller="Product" asp-route-id="@category.Id">@category.Name</a>
-                </button>
+                </div>
             }
         </div>
         <div class="col-lg-6">
-            @foreach (var supplier in ViewBag.suppliers)
+            @foreach (var supplier in Model.Suppliers)
             {
-                <button class="col-lg-auto">
+                <div class="col-lg-auto">
                     <a asp-action="Supplier" asp-controller="Product" asp-route-id="@supplier.Id">@supplier.Name</a>
-                </button>
+                </div>
             }
         </div>
     </div>
@@ -35,11 +35,11 @@
 }
 
 <div class="container">
-    @foreach (var element in Model)
+    @foreach (var element in Model.Products)
     {
-        <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 500px">
+        <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
             <div class="card">
-                <img src="img/@(element.Id).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
+                <img src="img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
 
                 <div class="card-body">
                     <h5 class="card-title text-center">
@@ -55,7 +55,7 @@
                     }
                     <p class="card-text">Supplier: @element.Supplier.Name</p>
                     <p class="card-text text-center"><strong>Price: @element.DefaultPrice @element.Currency</strong></p>
-                    <a asp-action="Add" asp-controller="Cart" asp-route-id="@element.Id" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                    <a asp-action="AddedToCart" asp-controller="Product" asp-route-id="@element.Id" asp-route-name="@element.Name" asp-route-price="@element.DefaultPrice" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
                 </div>
             </div>
         </div>

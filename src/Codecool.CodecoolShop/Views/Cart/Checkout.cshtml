@@ -1,0 +1,74 @@
+﻿@model Codecool.CodecoolShop.Models.Checkout
+
+<h4>Order no. @Model.OrderId:</h4>
+
+<form asp-action="CheckoutForm" asp-controller="Cart" method="post" style="display:inherit">
+<div class="row">
+    <div class="col-4">
+    <div class="clientData">
+        <h4>Personal data:</h4>
+                <p>@Html.HiddenFor(o => o.OrderId)</p>
+                <p>@Html.Label("Name: ")</p><p>
+                @Html.EditorFor(o => o.Name)</p>
+                <p>
+                    @Html.Label("E-mail: ")
+                </p><p>
+                @Html.EditorFor(o => o.Email)</p>
+                <p>
+                    @Html.Label("Phone number: ")
+                </p><p>
+                @Html.EditorFor(o => o.PhoneNumber)
+                </p>
+    
+    </div>
+        </div>
+    <div class="col-4">
+    <div class="billingAddress">
+        <h4>Billing address:</h4>
+                <p>
+                    @Html.Label("Country: ")
+                </p><p>
+                    @Html.EditorFor(o => o.BillingAddress.Country)
+                </p>
+                    <p>
+                    @Html.Label("City: ")
+                </p><p>
+                    @Html.EditorFor(o => o.BillingAddress.City)
+                </p>
+                        <p>
+                    @Html.Label("Zip Code: ")
+                </p><p>
+                    @Html.EditorFor(o => o.BillingAddress.ZipCode)
+                </p>
+                <p>
+                    @Html.Label("Street: ")
+                </p><p>
+                    @Html.EditorFor(o => o.BillingAddress.Street)
+                </p>
+    </div>
+    </div>
+    <div class="col-4">
+    <div class="shippingAddress">
+        <h4>Shipping address:</h4>
+                <p>
+                    @Html.Label("Country: ")
+                </p><p>
+                @Html.EditorFor(o => o.ShippingAddress.Country)</p>
+                <p>
+                    @Html.Label("City: ")
+                </p><p>
+                @Html.EditorFor(o => o.ShippingAddress.City)</p>
+                <p>
+                    @Html.Label("Zip Code: ")
+                </p><p>
+                @Html.EditorFor(o => o.ShippingAddress.ZipCode)</p>
+                <p>
+                    @Html.Label("Street: ")
+                </p><p>
+                @Html.EditorFor(o => o.ShippingAddress.Street)</p>
+    </div>
+    </div>
+    <input value="Save data" type="submit" />
+    </div>
+</form>
+
