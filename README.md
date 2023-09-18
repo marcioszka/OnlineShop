@@ -46,11 +46,15 @@ To run the application locally, follow these steps:
 
 3. **Entity Framework Migrations**: Run Entity Framework migrations to create the database schema:
 
+```shell
 dotnet ef database update
+```
 
 4. **Run the Application**:
 
+```shell
 dotnet run
+```
 
 5. **Access the Application**: Open your web browser and navigate to `http://localhost:5000` to access the eCommerce application.
 
